@@ -21,17 +21,20 @@ function FirstCard() {
 
 // Another component
 function FirstInputCard() {
-    return React.createElement(
-        "div",
-        { className: "textCard" },
-        React.createElement("textarea", { onKeyPress: checkReturn })
-    );
+    return React.createElement("div", {class: "textcard"},
+    		React.createElement("textarea", {id: "input",onKeyPress: "checkReturn()"}),
+    		React.createElement("p", {id: "output"}, "Korean"));
+}
+
+function SaveButton() {
+    return React.createElement("div", { class: "save_button"},
+    		React.createElement("button", {onClick: "save()"}, "Save"));
 }
 
 function OutputCard(){
     return React.createElement(
         "div",
-        {className: "Outpu"},
+        {className: "textCard"},
         React.createElement("p",null,"korean")
     )
 }
@@ -44,8 +47,9 @@ var main = React.createElement(
     null,
     lango,
     React.createElement(FirstInputCard, null),
-    React.createElement(FirstCard, null),
-    React.createElement(OutputCard,null)
+    React.createElement(SaveButton, null)
+  //  React.createElement(FirstCard, null),
+ //   React.createElement(OutputCard,null)
 );
 
 ReactDOM.render(main, document.getElementById('root'));
