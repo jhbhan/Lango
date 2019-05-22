@@ -22,13 +22,13 @@ function FirstCard() {
 // Another component
 function FirstInputCard() {
     return React.createElement("div", {className: "textcard"},
-    		React.createElement("textarea", {id: "input",onKeyPress: "checkReturn()"}),
+    		React.createElement("textarea", {id: "input", onKeyPress: checkReturn}),
     		React.createElement("p", {id: "output"}, "Korean"));
 }
 
 function SaveButton() {
     return React.createElement("div", { className: "save_button"},
-    		React.createElement("button", {onClick: save()}, "Save"));
+    		React.createElement("button", {onClick: save}, "Save"));
 }
 
 function OutputCard(){
@@ -57,8 +57,10 @@ ReactDOM.render(main, document.getElementById('root'));
 // onKeyPress function for the textarea element
 // When the charCode is 13, the user has hit the return key
 function checkReturn(event) {
-    console.log(event.charCode);
+    if(event.charCode == 13){
+        console.log("hi");
+    }
 }
 function save(){
-	"save"
+	console.log("save");
 }
