@@ -5,7 +5,7 @@
 //for API
 const APIrequest = require('request');
 const http = require('http');
-const APIkey = "APIKEY";  // ADD API KEY HERE
+const APIkey = "AIzaSyD9g1FCMUxnPrQlEJtLS8EavxUCp8zE88U";  // ADD API KEY HERE
 const url = "https://translation.googleapis.com/language/translate/v2?key="+APIkey//always remains the same don't change
 //for AJAX
 const express = require('express')
@@ -45,7 +45,8 @@ function insertDB(user, english, korean, seen, correct){
     }
 }
 
-function queryHandler(req, res, next) {
+// if seen /translate as query goes to this.
+function translateHandler(req, res, next) {
 
     let qObj = req.query;
 
@@ -54,24 +55,36 @@ function queryHandler(req, res, next) {
 //else just translate (call API)
 
     if (qObj.english != undefined){
-		let eng = qObj.english;
-		if(qObj.korean != undefined){
-			let kor = qObj.korean;
-			console.log(kor);
-			initDB();
-			insertDB(1,eng,kor,0,0);
-			console.log("inserted");
-		}
-		else{
-        	let requestObject = 
-            {
-            	"source": "en",
-            	"target": "ko",
-            	"q": [eng]
-            }
 
-        	returnFunction(res, requestObject);
+    	let requestObject = 
+        {
+        	"source": "en",
+        	"target": "ko",
+        	"q": [qObj.english]
         }
+
+    	returnFunction(res, requestObject);
+    }
+    else {
+    next();
+    }
+}
+
+function storeHanlder(req, res, next) {
+
+    let qObj = req.query;
+
+//if qObject.english != undefined -> run the function
+//if qObject.korean != undefined -> insert
+//else just translate (call API)
+
+    if (qObj.english != undefined && qObj.korean != undefined){
+        let eng = qObj.english;
+        let kor = qObj.korean;
+        console.log(kor);
+        initDB();
+        insertDB(1,eng,kor,0,0);
+        console.log("inserted");
     }
     else {
     next();
@@ -92,7 +105,8 @@ const app = express()
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-app.get('/translate', queryHandler );
+app.get('/translate', translateHandler);
+app.get('/store', storeHanlder);
 app.use( fileNotFound );
 app.listen(port, function (){console.log('Listening...');} )
 
