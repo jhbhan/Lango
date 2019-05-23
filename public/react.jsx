@@ -11,24 +11,36 @@ class CardPage extends React.Component {
   saveInput(event){
     //Updates value whenever textbox is changed
     this.setState({value: event.target.value});
-    console.log(this.state.value);
 
   }
   
   checkReturn(event){
     //Checks if enter is pressed
     if(event.charCode == 13){
-      this.setState({changed: true});
-      alert(this.state.value);
       this.sendTranslateRequest(this.state.value, this);
     }
   }
   
   save(event){
-    //Checks if save button is pressed
-    this.setState({changed: true});
-    alert(this.state.value);
-    this.sendTranslateRequest(this.state.value, this);
+    //Saves englishWord and translatedWord to database
+    if(this.state.value != "" && this.state.displayed != ""){
+      let eng = this.state.value;
+      let kor = this.state.displayed;
+      let url = "store?english="+eng+"&korean="+kor;
+      console.log(url);
+
+      let xhr = new XMLHttpRequest();
+
+      xhr.open("GET", url, true);
+
+      xhr.onload = function() {
+        console.log("saved");
+       };
+      xhr.onerror = function() {
+        console.log("did not work");
+       };
+      xhr.send(); 
+    }
   }
   
   sendTranslateRequest(englishWord, card){
@@ -42,7 +54,6 @@ class CardPage extends React.Component {
     xhr.onload = function() {
       let responseStr = xhr.responseText;
       let object = JSON.parse(responseStr);
-      console.log(object.Korean);
       card.receivedTranslateRequest(object.Korean);
      };
      xhr.onerror = function() {
@@ -77,10 +88,10 @@ class CardPage extends React.Component {
       <div className="textcard">
         <textarea id="input" placeholder="English" onKeyPress={this.checkReturn} onChange={this.saveInput}/>
       </div>
-      <div>
+      <div className="textcard">
         {output}
       </div>
-      <div class="save_button">
+      <div className="save_button">
         <button onClick={this.save}>Save</button>
       </div>
     </div>

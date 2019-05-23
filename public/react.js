@@ -27,25 +27,37 @@ var CardPage = function (_React$Component) {
     value: function saveInput(event) {
       //Updates value whenever textbox is changed
       this.setState({ value: event.target.value });
-      console.log(this.state.value);
     }
   }, {
     key: "checkReturn",
     value: function checkReturn(event) {
       //Checks if enter is pressed
       if (event.charCode == 13) {
-        this.setState({ changed: true });
-        alert(this.state.value);
         this.sendTranslateRequest(this.state.value, this);
       }
     }
   }, {
     key: "save",
     value: function save(event) {
-      //Checks if save button is pressed
-      this.setState({ changed: true });
-      alert(this.state.value);
-      this.sendTranslateRequest(this.state.value, this);
+      //Saves englishWord and translatedWord to database
+      if (this.state.value != "" && this.state.displayed != "") {
+        var eng = this.state.value;
+        var kor = this.state.displayed;
+        var url = "store?english=" + eng + "&korean=" + kor;
+        console.log(url);
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open("GET", url, true);
+
+        xhr.onload = function () {
+          console.log("saved");
+        };
+        xhr.onerror = function () {
+          console.log("did not work");
+        };
+        xhr.send();
+      }
     }
   }, {
     key: "sendTranslateRequest",
@@ -60,7 +72,6 @@ var CardPage = function (_React$Component) {
       xhr.onload = function () {
         var responseStr = xhr.responseText;
         var object = JSON.parse(responseStr);
-        console.log(object.Korean);
         card.receivedTranslateRequest(object.Korean);
       };
       xhr.onerror = function () {
@@ -106,12 +117,12 @@ var CardPage = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          null,
+          { className: "textcard" },
           output
         ),
         React.createElement(
           "div",
-          { "class": "save_button" },
+          { className: "save_button" },
           React.createElement(
             "button",
             { onClick: this.save },
