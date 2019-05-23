@@ -36,7 +36,7 @@ var CardPage = function (_React$Component) {
       if (event.charCode == 13) {
         this.setState({ changed: true });
         alert(this.state.value);
-        this.sendTranslateRequest(this.state.value);
+        this.sendTranslateRequest(this.state.value, this);
       }
     }
   }, {
@@ -45,16 +45,35 @@ var CardPage = function (_React$Component) {
       //Checks if save button is pressed
       this.setState({ changed: true });
       alert(this.state.value);
-      this.sendTranslateRequest(this.state.value);
+      this.sendTranslateRequest(this.state.value, this);
     }
   }, {
     key: "sendTranslateRequest",
-    value: function sendTranslateRequest(englishWord) {
+    value: function sendTranslateRequest(englishWord, card) {
       //Used to send englishWord for translation in API
+      var url = "translate?english=" + englishWord;
 
+      var xhr = new XMLHttpRequest();
+
+      xhr.open("GET", url, true);
+
+      xhr.onload = function () {
+        var responseStr = xhr.responseText;
+        var object = JSON.parse(responseStr);
+        console.log(object.Korean);
+        card.receivedTranslateRequest(object.Korean);
+      };
+      xhr.onerror = function () {
+        console.log("did not work");
+      };
+      xhr.send();
+    }
+  }, {
+    key: "receivedTranslateRequest",
+    value: function receivedTranslateRequest(translatedWord) {
       //After response is received
       this.setState({ changed: true });
-      this.setState({ displayed: "-----TRANSLATION_RESPONSE-----" });
+      this.setState({ displayed: translatedWord });
     }
   }, {
     key: "updateOutput",
