@@ -50,13 +50,13 @@ class CardPage extends React.Component {
       output = <textarea id="output" value={this.updateOutput()} placeholder="Translation"/>;
     }
     else{
-      output = <textarea id="output" placeholder="Translation"/>;
+      output = <textarea id="output" readOnly={true} placeholder="Translation"/>;
     }
   
     return (
     <div>
       <h1 id="logo">Lango!</h1>
-      <div class="textcard">
+      <div className="textcard">
         <textarea id="input" placeholder="English" onKeyPress={this.checkReturn} onChange={this.saveInput}/>
       </div>
       <div>
