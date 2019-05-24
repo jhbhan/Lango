@@ -19,6 +19,7 @@ var CardPage = function (_React$Component) {
     _this.saveInput = _this.saveInput.bind(_this);
     _this.save = _this.save.bind(_this);
     _this.checkReturn = _this.checkReturn.bind(_this);
+    //this.clearFlashcards = this.clearFlashcards.bind(this);
     return _this;
   }
 
@@ -43,9 +44,11 @@ var CardPage = function (_React$Component) {
       if (this.state.value != "" && this.state.displayed != "") {
         var eng = this.state.value;
         var kor = this.state.displayed;
+
         var url = "store?english=" + eng + "&korean=" + kor;
         console.log(url);
 
+        //this.clearFlashcards();
         var xhr = new XMLHttpRequest();
 
         xhr.open("GET", url, true);
@@ -57,11 +60,19 @@ var CardPage = function (_React$Component) {
           console.log("did not work");
         };
         xhr.send();
-        this.setState({ value: "" });
-        this.setState({ displayed: "" });
-        this.setState({ changed: false });
       }
     }
+    /*
+    //Doesn't work correctly yet
+      clearFlashcards(){
+        this.setState({value: "", displayed: "", changed: false});
+        console.log("states cleared");
+        console.log(this.state.value);
+        console.log(this.state.changed);
+        console.log(this.state.displayed);
+      }
+      */
+
   }, {
     key: "sendTranslateRequest",
     value: function sendTranslateRequest(englishWord, card) {
