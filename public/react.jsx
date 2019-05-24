@@ -40,6 +40,9 @@ class CardPage extends React.Component {
         console.log("did not work");
        };
       xhr.send(); 
+      this.setState({value: ""});
+      this.setState({displayed: ""});
+      this.setState({changed: false});
     }
   }
   

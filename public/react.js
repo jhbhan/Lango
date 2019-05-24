@@ -6,7 +6,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-
 var CardPage = function (_React$Component) {
   _inherits(CardPage, _React$Component);
 
@@ -58,6 +57,9 @@ var CardPage = function (_React$Component) {
           console.log("did not work");
         };
         xhr.send();
+        this.setState({ value: "" });
+        this.setState({ displayed: "" });
+        this.setState({ changed: false });
       }
     }
   }, {
@@ -113,15 +115,6 @@ var CardPage = function (_React$Component) {
         ),
         React.createElement(
           "div",
-          {className: "startReview_button"},
-          React.createElement(
-            "button",
-            { onClick: this.startReview},
-            "Start Review"
-          )
-        ),
-        React.createElement(
-          "div",
           { className: "textcard" },
           React.createElement("textarea", { id: "input", placeholder: "English", onKeyPress: this.checkReturn, onChange: this.saveInput })
         ),
@@ -138,18 +131,7 @@ var CardPage = function (_React$Component) {
             { onClick: this.save },
             "Save"
           )
-        ),
-        React.createElement(
-          "div",
-          { className: "userID"},
-          React.createElement(
-            "p",{
-              id: "userName"
-            },
-            "UserName"
-          )
         )
-
       );
     }
   }]);
