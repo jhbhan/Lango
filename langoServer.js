@@ -16,21 +16,24 @@ const fs = require("fs"); // file system
 const dbFileName = "Flashcards.db";
 const db = new sqlite3.Database(dbFileName);  // object, not database.
 
-function initDB(){
+function initDB(user, english, korean, seen, correct){
 
     const cmdStr = 'CREATE TABLE Flashcards (user INT, english TEXT UNIQUE, korean TEXT, seen INT, correct INT)'
     db.run(cmdStr,tableCreationCallback);
 
     function tableCreationCallback(err) {
         if (err) {
-            if (err.errno == 1){
+            if (err.errno == 1){//Table already exists
+                insertDB(user, english, korean, seen, correct);
                 return;
             }
-            else{
+            else{//Table could not be created
                 console.log("Table creation error",err);
             } 
-        } else {
+        } else {//Table was created
             console.log("Database created");
+            insertDB(user, english, korean, seen, correct);
+            return;
         }
     }
 }
@@ -82,8 +85,7 @@ function storeHanlder(req, res, next) {
         let eng = qObj.english;
         let kor = qObj.korean;
         console.log(kor);
-        initDB();
-        insertDB(1,eng,kor,0,0);
+        initDB(1,eng,kor,0,0);
         console.log("inserted");
     }
     else {
