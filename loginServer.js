@@ -13,8 +13,8 @@ const sqlite = require('sqlite3');
 // information, packed into a redirect response that redirects to
 // server162.site:[port]/auth/redirect
 const googleLoginData = {
-    clientID: '472036695689-s9n5kubr2kuqftbvk0ujl67i324njo3p.apps.googleusercontent.com',
-    clientSecret: 'W-edC3ifbkX9nxSDoNheWPca',
+    clientID: 'someclientID',
+    clientSecret: 'someClientSecret',
     callbackURL: '/auth/redirect'
 };
 

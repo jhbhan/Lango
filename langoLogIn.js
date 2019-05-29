@@ -9,7 +9,7 @@ const GoogleStrategy = require('passport-google-oauth20');
 //for API
 const APIrequest = require('request');
 const http = require('http');
-const APIkey = "AIzaSyD9g1FCMUxnPrQlEJtLS8EavxUCp8zE88U";  // ADD API KEY HERE
+const APIkey = "SOME API KEY";  // ADD API KEY HERE
 const url = "https://translation.googleapis.com/language/translate/v2?key="+APIkey//always remains the same don't change
 //for AJAX
 const express = require('express')
@@ -24,8 +24,8 @@ const app = express()
 // pipeline stage that just echos url, for debugging
 
 const googleLoginData = {
-    clientID: '472036695689-s9n5kubr2kuqftbvk0ujl67i324njo3p.apps.googleusercontent.com',
-    clientSecret: 'W-edC3ifbkX9nxSDoNheWPca',
+    clientID: 'SOME CLIENT ID',
+    clientSecret: 'SOME CLIENT SECRET',
     callbackURL: '/auth/redirect'
 };//log in credential that tells user that this is registered for this service,
 //Google that where to come back to.
