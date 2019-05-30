@@ -114,6 +114,7 @@ function printURL (req, res, next) {
 // function to check whether user is logged when trying to access
 // personal data
 function isAuthenticated(req, res, next) {
+    console.log("isAuthenticated");
     if (req.user) {
 	console.log("Req.session:",req.session);
 	console.log("Req.user:",req.user);

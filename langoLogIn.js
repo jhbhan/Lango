@@ -24,8 +24,8 @@ const app = express()
 // pipeline stage that just echos url, for debugging
 
 const googleLoginData = {
-    clientID: 'SOME CLIENT ID',
-    clientSecret: 'SOME CLIENT SECRET',
+    clientID: 'someclientID',
+    clientSecret: 'someclientSecret',
     callbackURL: '/auth/redirect'
 };//log in credential that tells user that this is registered for this service,
 //Google that where to come back to.
