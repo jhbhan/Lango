@@ -24,8 +24,8 @@ const app = express()
 // pipeline stage that just echos url, for debugging
 
 const googleLoginData = {
-    clientID: 'someclientID',
-    clientSecret: 'someclientSecret',
+    clientID: '137558159232-5besel5i0ct99n430hvjsf3gdcu2vgbd.apps.googleusercontent.come',
+    clientSecret: 'BhV7V5CFP6V8DUe_CqeBpNug',
     callbackURL: '/auth/redirect'
 };//log in credential that tells user that this is registered for this service,
 //Google that where to come back to.
@@ -46,7 +46,7 @@ app.use(passport.session()); // If there is a valid cookie, will call deserializ
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
-app.get('/auth/google', passport.authenticate('google',{ scope: ['profile'] }) );//if /auth/google
+
 app.get('/translate', translateHandler); //if /translate
 app.get('/store', storeHanlder); //if /store
 app.use( fileNotFound );
@@ -65,6 +65,35 @@ function printURL (req, res, next) {
 //
 //
 ////////////////
+app.get('/auth/google', passport.authenticate('google',{ scope: ['profile'] }) );//if /auth/google
+app.get('/auth/redirect',
+    // for educational purposes
+    function (req, res, next) {
+        console.log("at auth/redirect");
+        next();
+    },
+    // This will issue Server's own HTTPS request to Google
+    // to access the user's profile information with the 
+    // temporary key we got in the request. 
+    passport.authenticate('google'),
+    // then it will run the "gotProfile" callback function,
+    // set up the cookie, call serialize, whose "done" 
+    // will come back here to send back the response
+    // ...with a cookie in it for the Browser! 
+    function (req, res) {
+        console.log('Logged in and using cookies!')
+        res.redirect('/user/hello.html');
+    });
+
+app.get('/user/*',
+    isAuthenticated, // only pass on to following function if
+    // user is logged in 
+    // serving files that start with /user from here gets them from ./
+    express.static('.') 
+       ); 
+
+// next, all queries (like translate or store or get...
+app.get('/query', function (req, res) { res.send('HTTP query!') });
 
 function gotProfile(accessToken, refreshToken, profile, done) {
     console.log("Google profile",profile);

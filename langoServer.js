@@ -3,7 +3,7 @@
 //FOR API REQUESTS
 const APIrequest = require('request');
 const http = require('http');
-const APIkey = "AIzaSyD9g1FCMUxnPrQlEJtLS8EavxUCp8zE88U";  // ADD API KEY HERE
+const APIkey = "AIzaSyBM7tsLhSZqKXgfDxCldqdK8qrYlmlaANg";  // ADD API KEY HERE
 const url = "https://translation.googleapis.com/language/translate/v2?key="+APIkey//always remains the same don't change
 //for GENERAL USAGE
 const express = require('express')
@@ -13,6 +13,37 @@ const sqlite3 = require("sqlite3").verbose();  // use sqlite
 const fs = require("fs"); // file system
 const dbFileName = "Flashcards.db";
 const db = new sqlite3.Database(dbFileName);  // object, not database.
+
+function initUserDB(first, last, userID){
+    const cmdStr = 'CREATE TABLE Users (first TEXT, last TEXT, userID TEXT UNIQUE)'
+    db run(cmdStr, tableCreationCallback);
+
+    function tableCreationCallback(err){
+        if (err) {
+            if (err.errno == 1){//Table already exists
+                insertUserDB(first, last, userID);
+                return;
+            }
+            else{//Table could not be created
+                console.log("Table creation error",err);
+            } 
+        } else {//Table was created
+            console.log("Database created");
+            insertUserDB(first, last, userID);
+            return;
+        } 
+    }
+}
+
+function insertUserDB(first, last, userID){
+    const cmdStr = 'INSERT into Users (first, last, userID) VALUES (@0, @1, @2)'
+
+    db.run(cmdStr, first, last, userID);
+    
+    function insertCallback(err) {
+        if (err) { console.log(err); }
+    }
+}
 
 function initDB(user, english, korean, seen, correct){
 

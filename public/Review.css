@@ -1,0 +1,108 @@
+body {
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    overflow-x: hidden;
+}
+
+h1{
+    padding-top: 2vw;
+    /* padding-bottom: 1vw; */
+    color:  #606B9B;
+    font-family: 'Raleway';
+    /* font-weight: bold; */
+    font-size: 4vw;
+    text-align: center;
+}
+
+
+#input  {
+    margin-top: 2.5vw;
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: 4px;
+    border-color: gray;
+    width: 27vw;
+    height: 25vw;
+    float: left;
+    margin-left: 17vw;
+    text-align: center;
+    font-style: Helvetica;
+    font-size: 2.5vw;
+}
+
+#output{
+    margin-top: 2.5vw;
+    background-color: #ffffff;
+    border-style: solid;
+    border-width: 4px;
+    border-color: gray;
+    width: 27vw;
+    height: 25vw;
+    float: right;
+    margin-right: 17vw;
+    text-align: center;
+    font-style: Helvetica;
+    font-size: 2.5vw;
+}
+
+.save_button{
+    position: relative;
+    left: 70vw;
+    top: 4vw;
+}
+
+.startReview_button{
+    position: relative; 
+    bottom: 3.5vw;
+    left: 4vw;
+}
+
+.save_button button{
+    background-color: #70C7A9;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    font-size: 2vw;
+    /* margin: 4px 2px; */
+    padding: 1vw 4vw;
+    border-radius: 12px;
+    font-style: Helvetica; 
+}
+
+.startReview_button button{
+    background-color: #606B9B;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    color: white;
+    font-size: 2vw;
+    /* margin: 4px 2px; */
+    padding: .9vw 3vw;
+    border-radius: 12px;
+    font-style: Helvetica; 
+}
+
+.userID{
+    background-color: #606B9B;
+    top: 10vw;
+    position: relative;
+    /* padding-top: .5vw; */
+    /* margin-top: 1vw; */
+}
+.userID p{
+    color: white;
+    text-align: center;
+    font-size: 2vw;
+    padding: 1vw;
+    /* margin-bottom: 2vw; */
+    /* padding-bottom: 1vw; */
+}
+
+/* don't get weird blue border when I type */
+textarea:focus {
+    outline: none;
+}
+
+textarea {
+    border: none;
+}
