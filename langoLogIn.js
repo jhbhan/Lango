@@ -13,7 +13,7 @@ const APIkey = "SOME API KEY";  // ADD API KEY HERE
 const url = "https://translation.googleapis.com/language/translate/v2?key="+APIkey//always remains the same don't change
 //for AJAX
 const express = require('express')
-const port = 53584
+const port = 50614
 //for SQL
 const sqlite3 = require("sqlite3").verbose();  // use sqlite
 const fs = require("fs"); // file system

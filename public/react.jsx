@@ -46,9 +46,8 @@ class CardPage extends React.Component {
     }
   }
 
-  startReview(){
-    // this.context.router.push('/home.html');
-  }
+  // startReview(){
+  // }
   
   sendTranslateRequest(englishWord, card){
     //Used to send englishWord for translation in API

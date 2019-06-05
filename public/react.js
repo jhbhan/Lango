@@ -62,11 +62,10 @@ var CardPage = function (_React$Component) {
         xhr.send();
       }
     }
-  }, {
-    key: "startReview",
-    value: function startReview() {
-      // this.context.router.push('/home.html');
-    }
+
+    // startReview(){
+    // }
+
   }, {
     key: "sendTranslateRequest",
     value: function sendTranslateRequest(englishWord, card) {
