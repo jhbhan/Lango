@@ -14,6 +14,7 @@ class SignIn extends React.Component {
 
   googleLogIn(event) {
     //clcking this button should trigger google log in we used for the log in. 
+    window.location.replace('/auth/google')
   }
 
 

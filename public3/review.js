@@ -37,6 +37,9 @@ var CardPage = function (_React$Component) {
       //Checks if enter is pressed
       if (event.charCode == 13) {
         this.sendTranslateRequest(this.state.value, this);
+        //flip the card above. 
+        // if correct then CORRECT GREEN
+        // if wrong then the correct english transaltion. 
       }
     }
   }, {
