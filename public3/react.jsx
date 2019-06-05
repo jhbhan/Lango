@@ -94,10 +94,10 @@ class CardPage extends React.Component {
       <h1 id="logo">Lango!</h1>
       <div className ="startReview_button"> <button onClick = {this.startReview}>Start Review</button></div>
       <div className="textcard">
-        <textarea id="input" placeholder="English" onKeyPress={this.checkReturn} onChange={this.saveInput}/>
+        {output}
       </div>
       <div className="textcard">
-        {output}
+        <textarea id="input" placeholder="English" onKeyPress={this.checkReturn} onChange={this.saveInput}/>
       </div>
       <div className="save_button">
         <button onClick={this.save}>Save</button>

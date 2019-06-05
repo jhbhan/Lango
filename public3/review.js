@@ -105,9 +105,9 @@ var CardPage = function (_React$Component) {
     value: function render() {
       var output = void 0;
       if (this.state.changed) {
-        output = React.createElement("textarea", { id: "output", value: this.updateOutput(), placeholder: "Put your translation here" });
+        output = React.createElement("textarea", { id: "input", value: this.updateOutput(), placeholder: "Korean" });
       } else {
-        output = React.createElement("textarea", { id: "output", readOnly: true, placeholder: "Put your translation here" });
+        output = React.createElement("textarea", { id: "input", readOnly: true, placeholder: "Korean" });
       }
 
       return React.createElement(
@@ -131,12 +131,12 @@ var CardPage = function (_React$Component) {
         React.createElement(
           "div",
           { className: "textcard" },
-          React.createElement("textarea", { id: "input", placeholder: "English", onKeyPress: this.checkReturn, onChange: this.saveInput })
+          output
         ),
         React.createElement(
           "div",
           { className: "textcard" },
-          output
+          React.createElement("textarea", { id: "output", placeholder: "Translate the word above to English", onKeyPress: this.checkReturn, onChange: this.saveInput })
         ),
         React.createElement(
           "div",

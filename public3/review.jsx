@@ -21,6 +21,9 @@ class CardPage extends React.Component {
       //Checks if enter is pressed
       if(event.charCode == 13){
         this.sendTranslateRequest(this.state.value, this);
+        //flip the card above. 
+        // if correct then CORRECT GREEN
+        // if wrong then the correct english transaltion. 
       }
     }
     
@@ -83,10 +86,10 @@ class CardPage extends React.Component {
     render() {
       let output;
       if(this.state.changed){
-        output = <textarea id="output" value={this.updateOutput()} placeholder="Put your translation here"/>;
+        output = <textarea id="input" value={this.updateOutput()} placeholder="Korean"/>;
       }
       else{
-        output = <textarea id="output" readOnly={true} placeholder="Put your translation here"/>;
+        output = <textarea id="input" readOnly={true} placeholder="Korean"/>;
       }
     
       return (
@@ -94,10 +97,10 @@ class CardPage extends React.Component {
         <h1 id="logo">Lango!</h1>
         <div className ="add_button"> <button onClick = {this.addButton}>Add</button></div>
         <div className="textcard">
-          <textarea id="input" placeholder="English" onKeyPress={this.checkReturn} onChange={this.saveInput}/>
+          {output}
         </div>
         <div className="textcard">
-          {output}
+          <textarea id="output" placeholder="Translate the word above to English" onKeyPress={this.checkReturn} onChange={this.saveInput}/>
         </div>
         <div className="next_button">
           <button onClick={this.next}>Next</button>
