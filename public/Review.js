@@ -36,7 +36,7 @@ var CardPage = function (_React$Component) {
     key: "firstName",
     value: function firstName(event) {
       var xhr = new XMLHttpRequest();
-
+      var _url = "getname?"
       xhr.open("GET", url, true);
 
       xhr.onload = function () {

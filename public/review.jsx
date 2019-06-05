@@ -20,7 +20,7 @@ class CardPage extends React.Component {
 
   firstName(event){
     let xhr = new XMLHttpRequest();
-
+    var _url = "getname?";
     xhr.open("GET", url, true);
 
     xhr.onload = function() {
