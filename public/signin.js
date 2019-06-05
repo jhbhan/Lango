@@ -30,6 +30,7 @@ var SignIn = function (_React$Component) {
     key: "googleLogIn",
     value: function googleLogIn(event) {
       //clcking this button should trigger google log in we used for the log in. 
+      window.location.href = "auth/google";
       url = 'auth/google';
       xhr = new XMLHttpRequest();
       xhr.open('GET', url, true);
