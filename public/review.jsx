@@ -8,6 +8,7 @@ class CardPage extends React.Component {
     this.saveInput = this.saveInput.bind(this);
     this.next = this.next.bind(this);
     this.checkReturn = this.checkReturn.bind(this);
+    this.firstName = this.firstName.bind(this);
   //   this.startReview = this.startRewview.bind(this);
   }
   
@@ -15,6 +16,20 @@ class CardPage extends React.Component {
     //Updates value whenever textbox is changed
     this.setState({value: event.target.value});
 
+  }
+
+  firstName(event){
+    let xhr = new XMLHttpRequest();
+
+    xhr.open("GET", url, true);
+
+    xhr.onload = function() {
+        console.log("next");
+    };
+    xhr.onerror = function() {
+        console.log("did not work");
+    };
+    xhr.send(); 
   }
   
   checkReturn(event){

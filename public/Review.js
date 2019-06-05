@@ -21,6 +21,7 @@ var CardPage = function (_React$Component) {
     _this.saveInput = _this.saveInput.bind(_this);
     _this.next = _this.next.bind(_this);
     _this.checkReturn = _this.checkReturn.bind(_this);
+    _this.firstName = _this.firstName.bind(_this);
     //   this.startReview = this.startRewview.bind(this);
     return _this;
   }
@@ -30,6 +31,21 @@ var CardPage = function (_React$Component) {
     value: function saveInput(event) {
       //Updates value whenever textbox is changed
       this.setState({ value: event.target.value });
+    }
+  }, {
+    key: "firstName",
+    value: function firstName(event) {
+      var xhr = new XMLHttpRequest();
+
+      xhr.open("GET", url, true);
+
+      xhr.onload = function () {
+        console.log("next");
+      };
+      xhr.onerror = function () {
+        console.log("did not work");
+      };
+      xhr.send();
     }
   }, {
     key: "checkReturn",
@@ -49,12 +65,12 @@ var CardPage = function (_React$Component) {
       if (this.state.value != "" && this.state.displayed != "") {
         var eng = this.state.value;
         var kor = this.state.displayed;
-        var url = "store?english=" + eng + "&korean=" + kor;
-        console.log(url);
+        var _url = "store?english=" + eng + "&korean=" + kor;
+        console.log(_url);
 
         var xhr = new XMLHttpRequest();
 
-        xhr.open("GET", url, true);
+        xhr.open("GET", _url, true);
 
         xhr.onload = function () {
           console.log("next");
