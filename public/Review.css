@@ -4,59 +4,63 @@ body {
 }
 
 h1{
-    padding-top: 2vw;
+    padding-top: 3vw;
     /* padding-bottom: 1vw; */
     color:  #606B9B;
     font-family: 'Raleway';
     /* font-weight: bold; */
     font-size: 4vw;
+    padding-bottom: 1vw;
     text-align: center;
+    font-style: bold;
 }
 
 
 #input  {
-    margin-top: 2.5vw;
+    /* margin-top: 2.5vw; */
     background-color: #ffffff;
     border-style: solid;
     border-width: 4px;
     border-color: gray;
-    width: 27vw;
-    height: 25vw;
-    float: left;
-    margin-left: 17vw;
+    width: 50vw;
+    height: 20vw;
+    /* float: left; */
+    /* margin-left: 17vw; */
     text-align: center;
     font-style: Helvetica;
+    margin-bottom: 2vw;
     font-size: 2.5vw;
+    margin-left: 24vw;
 }
 
 #output{
-    margin-top: 2.5vw;
+    /* margin-top: 2.5vw; */
     background-color: #ffffff;
     border-style: solid;
     border-width: 4px;
     border-color: gray;
-    width: 27vw;
-    height: 25vw;
-    float: right;
-    margin-right: 17vw;
+    width: 50vw;
+    height: 5vw;
+    /* float: right; */
+    margin-left: 24vw;
     text-align: center;
     font-style: Helvetica;
     font-size: 2.5vw;
 }
 
-.save_button{
+.next_button{
     position: relative;
-    left: 70vw;
+    left: 63vw;
     top: 4vw;
 }
 
-.startReview_button{
+.add_button{
     position: relative; 
-    bottom: 3.5vw;
+    bottom: 5.5vw;
     left: 4vw;
 }
 
-.save_button button{
+.next_button button{
     background-color: #70C7A9;
     text-align: center;
     text-decoration: none;
@@ -69,7 +73,7 @@ h1{
     font-style: Helvetica; 
 }
 
-.startReview_button button{
+.add_button button{
     background-color: #606B9B;
     text-align: center;
     text-decoration: none;

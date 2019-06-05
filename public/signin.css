@@ -1,0 +1,91 @@
+html {
+    height: 100%;
+}
+
+body {
+    font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    /* background-color: #606B9B;
+    background-repeat: repeat-y;
+    background-size: 50% auto; */
+    background: -webkit-gradient(linear, left top, right top, color-stop(50%,#B191D4), color-stop(50%,white), color-stop(0%,#606B9B));
+}
+
+.divider{
+ display: flex;
+ /* background-color: purple; */
+ flex-direction: row;
+}
+h1{ 
+    font-size: 6vw;
+    font-style: bold;
+    margin-top: 1vw;
+    color: white;
+    /* background-color: purple; */
+}
+
+#Lango_paragraph{
+    margin-top: 2vw;
+    font-size: 2vw;
+    color: #70C7A9;
+}
+
+.opening{
+    margin-top: 15vw;
+    margin-left: 7vw;
+    /* background: linear-gradient(90deg, #606B9B 80%, #B191D4 20%); */
+}
+
+.google_login{
+    /* display: flex; */
+    /* flex-direction: column; */
+    margin-top: 22vw;
+    margin-left: 26vw;
+    /* padding-right: 5vw; */
+    width: 25vw;
+    /* height: 50vw; */
+}
+
+#LogIn_image{
+ height: 3.5vw;
+ width: 4vw;
+ /* padding-right: 1vw;
+ margin-top: .5vw; */
+ padding-right: 12vw;
+ /* padding-right:  */
+}
+.google_login p{
+    position:relative;
+
+    bottom: 3.5vw;
+    left: 4.5vw;
+
+}
+.google_login div{
+    /* padding-top: 10vw; */
+    /* position: relative; */
+    /* right: 2vw; */
+    padding-right: 4.5vw;
+    padding-top: 1vw;
+    width: 18.5vw;
+    height: 5vw;
+    /* padding-bottom: .5vw; */
+}
+
+button{
+    background-color: #70C7A9;
+    font-size: 2vw;
+    /* padding-top: 2vw; */
+    color: white;
+    /* text-align: top; */
+}
+/* 
+button #text{
+    margin-bottom: 1vw;
+} */
+
+/* 
+.button{
+    background: url(google.jpg)
+} */

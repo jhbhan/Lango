@@ -17,7 +17,7 @@ const port = 53584
 //for SQL
 const sqlite3 = require("sqlite3").verbose();  // use sqlite
 const fs = require("fs"); // file system
-const dbFileName = "Flashcards.db";
+const dbFileName = "Lango.db";
 const db = new sqlite3.Database(dbFileName);  // object, not database.
 
 const app = express()
@@ -48,7 +48,8 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 app.get('/translate', translateHandler); //if /translate
-app.get('/store', storeHanlder); //if /store
+app.get('/store', storeHandler); //if /store
+app.get('/review', reviewHandler)
 app.use( fileNotFound );
 app.listen(port, function (){console.log('Listening...');} )
 
@@ -57,7 +58,9 @@ function printURL (req, res, next) {
     console.log(req.url);
     next();
 }
-
+//
+//
+//
 //
 //
 //
@@ -67,14 +70,10 @@ function printURL (req, res, next) {
 ////////////////
 app.get('/auth/google', passport.authenticate('google',{ scope: ['profile'] }) );//if /auth/google
 app.get('/auth/redirect',
-    // for educational purposes
     function (req, res, next) {
         console.log("at auth/redirect");
         next();
     },
-    // This will issue Server's own HTTPS request to Google
-    // to access the user's profile information with the 
-    // temporary key we got in the request. 
     passport.authenticate('google'),
     // then it will run the "gotProfile" callback function,
     // set up the cookie, call serialize, whose "done" 
@@ -86,14 +85,23 @@ app.get('/auth/redirect',
     });
 
 app.get('/user/*',
-    isAuthenticated, // only pass on to following function if
-    // user is logged in 
-    // serving files that start with /user from here gets them from ./
+    isAuthenticated,
     express.static('.') 
        ); 
-
 // next, all queries (like translate or store or get...
 app.get('/query', function (req, res) { res.send('HTTP query!') });
+
+function isAuthenticated(req, res, next) {
+    console.log("isAuthenticated");
+    if (req.user) {
+    console.log("Req.session:",req.session);
+    console.log("Req.user:",req.user);
+    next();
+    } else {
+    res.redirect('/login.html');  // send response telling
+    // Browser to go to login page
+    }
+}
 
 function gotProfile(accessToken, refreshToken, profile, done) {
     console.log("Google profile",profile);
@@ -110,8 +118,55 @@ function gotProfile(accessToken, refreshToken, profile, done) {
     done(null, dbRowID); 
 }
 
+passport.serializeUser((dbRowID, done) => {
+    console.log("SerializeUser. Input is",dbRowID);
+    done(null, dbRowID);
+});
+
+// Called by passport.session pipeline stage on every HTTP request with
+// a current session cookie. 
+// Where we should lookup user database info. 
+// Whatever we pass in the "done" callback becomes req.user
+// and can be used by subsequent middleware.
+passport.deserializeUser((dbRowID, done) => {
+    console.log("deserializeUser. Input is:", dbRowID);
+    // here is a good place to look up user data in database using
+    // dbRowID. Put whatever you want into an object. It ends up
+    // as the property "user" of the "req" object. 
+    let userData = {userData: "data from db row goes here"};
+    done(null, userData);
+});
 
 
+function initUserDB(first, last, userID){
+    const cmdStr = 'CREATE TABLE Users (first TEXT, last TEXT, userID TEXT UNIQUE)'
+    db.run(cmdStr, tableCreationCallback);
+
+    function tableCreationCallback(err){
+        if (err) {
+            if (err.errno == 1){//Table already exists
+                insertUserDB(first, last, userID);
+                return;
+            }
+            else{//Table could not be created
+                console.log("Table creation error",err);
+            } 
+        } else {//Table was created
+            console.log("Database created");
+            insertUserDB(first, last, userID);
+            return;
+        } 
+    }
+}
+
+function insertUserDB(first, last, userID){
+    const cmdStr = 'INSERT into Users (first, last, userID) VALUES (@0, @1, @2)'
+    db.run(cmdStr, first, last, userID, insertCallback);
+    
+    function insertCallback(err) {
+        if (err) { console.log(err); }
+    }
+}
 ////////////////
 //                    
 //
@@ -179,7 +234,7 @@ function translateHandler(req, res, next) {
     }
 }
 
-function storeHanlder(req, res, next) {
+function storeHandler(req, res, next) {
 
     let qObj = req.query;
 

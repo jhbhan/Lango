@@ -6,6 +6,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// import { withRouter } from 'react-router';
+// import styles from './lango.css';
 var CardPage = function (_React$Component) {
   _inherits(CardPage, _React$Component);
 
@@ -19,7 +21,7 @@ var CardPage = function (_React$Component) {
     _this.saveInput = _this.saveInput.bind(_this);
     _this.save = _this.save.bind(_this);
     _this.checkReturn = _this.checkReturn.bind(_this);
-    //this.clearFlashcards = this.clearFlashcards.bind(this);
+    _this.startReview = _this.startReview.bind(_this);
     return _this;
   }
 
@@ -44,11 +46,9 @@ var CardPage = function (_React$Component) {
       if (this.state.value != "" && this.state.displayed != "") {
         var eng = this.state.value;
         var kor = this.state.displayed;
-
         var url = "store?english=" + eng + "&korean=" + kor;
         console.log(url);
 
-        //this.clearFlashcards();
         var xhr = new XMLHttpRequest();
 
         xhr.open("GET", url, true);
@@ -62,17 +62,11 @@ var CardPage = function (_React$Component) {
         xhr.send();
       }
     }
-    /*
-    //Doesn't work correctly yet
-      clearFlashcards(){
-        this.setState({value: "", displayed: "", changed: false});
-        console.log("states cleared");
-        console.log(this.state.value);
-        console.log(this.state.changed);
-        console.log(this.state.displayed);
-      }
-      */
-
+  }, {
+    key: "startReview",
+    value: function startReview() {
+      // this.context.router.push('/home.html');
+    }
   }, {
     key: "sendTranslateRequest",
     value: function sendTranslateRequest(englishWord, card) {
@@ -123,6 +117,16 @@ var CardPage = function (_React$Component) {
           "h1",
           { id: "logo" },
           "Lango!"
+        ),
+        React.createElement(
+          "div",
+          { className: "startReview_button" },
+          " ",
+          React.createElement(
+            "button",
+            { onClick: this.startReview },
+            "Start Review"
+          )
         ),
         React.createElement(
           "div",

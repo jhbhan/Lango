@@ -86,7 +86,7 @@ app.get('/auth/redirect',
 	});
 
 // static files in /user are only available after login
-app.get('/user/*',
+app.get('/public3/flashcard.html',
 	isAuthenticated, // only pass on to following function if
 	// user is logged in 
 	// serving files that start with /user from here gets them from ./
