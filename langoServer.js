@@ -29,8 +29,13 @@ const googleLoginData = {
 };
 passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
 const app = express();
-
-
+/*
+insertDB("Jeonghwan","hi","kor",0,0);
+insertDB("Jeonghwan","asd","bye",0,0);
+insertDB("Jeonghwan","df","bye",0,0);
+insertDB("Jeonghwan","hai","bye",0,0);
+insertDB("Jeonghwan","bb","bye",0,0);
+*/
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(cookieSession({
@@ -50,26 +55,22 @@ app.get('/auth/redirect',
     },
     passport.authenticate('google'),
     function (req, res) {
-    let numFlashcards = 1;
-    const cmd = 'SELECT * FROM Users WHERE userID="'+req.user+'";';
-    db.all(cmd,function(err,rows){
-        if (err){
-            throw err;
-        }
-        rows.forEach(function (row) {
-        numFlashcards =+ 1;
-        });
-        console.log("hi");
-    });
+        const cmd = 'SELECT * FROM Flashcards where user="Jeonghwan";';
+        db.get(cmd, countCallback);
 
-    console.log(numFlashcards);
-    console.log('Logged in and using cookies!');
-    if (numFlashcards == 0) {
-        res.redirect('/save.html');
+        function countCallback(err, rowdata){
+            console.log("inc count callback");
+            if (err) { console.log(err); }
+            else{
+                console.log(rowdata);
+                if (rowdata != undefined) {
+                    res.redirect('/Review.html');
+                }
+                else{
+                    res.redirect('/save.html');
+                }}
         }
-    else {
-        res.redirect('/Review.html');
-    }
+
     
     });
 app.get('/user/*',
@@ -84,7 +85,7 @@ app.get('/query', function (req, res) { res.send('HTTP query!') });
 
 //POST LOGIN
 app.get('/translate', translateHandler);
-app.get('/store', storeHanlder);
+app.get('/store', storeHandler);
 app.use( fileNotFound );
 app.listen(port, function (){console.log('Listening...');} )
 
@@ -243,7 +244,7 @@ console.log(req.user);
     }
 }
 
-function storeHanlder(req, res, next) {
+function storeHandler(req, res, next) {
 
     let qObj = req.query;
 
@@ -254,7 +255,7 @@ function storeHanlder(req, res, next) {
     if (qObj.english != undefined && qObj.korean != undefined){
         let eng = qObj.english;
         let kor = qObj.korean;
-    let user = "Jeonghwan";
+        let user = "Jeonghwan";
         console.log(kor);
         insertDB(user,eng,kor,0,0);
         console.log("inserted");
