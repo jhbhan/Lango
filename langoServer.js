@@ -81,6 +81,7 @@ app.get('/query', function (req, res) { res.send('HTTP query!') });
 //POST LOGIN
 app.get('/translate', translateHandler);
 app.get('/store', storeHandler);
+app.get('/getname', getNameHandler);
 app.use( fileNotFound );
 app.listen(port, function (){console.log('Listening...');} )
 
@@ -207,8 +208,6 @@ function insertDB(user, english, korean, seen, correct){
 
     db.run(cmdStr, [user.userData, english, korean], insertCallback);
     
-    console.log("here");
-
     function insertCallback(err) {
         if (err) { console.log(err); }
     }
@@ -256,6 +255,21 @@ function storeHandler(req, res, next) {
     }
     else {
     next();
+    }
+}
+
+function getNameHandler(req,res,next){
+    let userID = req.user.userData;
+    let cmd = "SELECT first FROM Users where user="+userID;
+
+    db.run(cmd,getNameCallback);
+    function getNameCallback(err, rowdata){
+            console.log("in getName callback");
+            if (err) { console.log(err); }
+            else{
+                console.log(rowdata);
+        }
+
     }
 }
 
