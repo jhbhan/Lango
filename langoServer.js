@@ -5,7 +5,7 @@
 //for API
 const APIrequest = require('request');
 const http = require('http');
-const APIkey = "AIzaSyD9g1FCMUxnPrQlEJtLS8EavxUCp8zE88U";  // ADD API KEY HERE
+const APIkey = "AIzaSyBM7tsLhSZqKXgfDxCldqdK8qrYlmlaANg";  // ADD API KEY HERE
 const url = "https://translation.googleapis.com/language/translate/v2?key="+APIkey//always remains the same don't change
 //for AJAX
 const express = require('express')
@@ -29,13 +29,7 @@ const googleLoginData = {
 };
 passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
 const app = express();
-/*
-insertDB("Jeonghwan","hi","kor",0,0);
-insertDB("Jeonghwan","asd","bye",0,0);
-insertDB("Jeonghwan","df","bye",0,0);
-insertDB("Jeonghwan","hai","bye",0,0);
-insertDB("Jeonghwan","bb","bye",0,0);
-*/
+
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(cookieSession({
@@ -55,11 +49,12 @@ app.get('/auth/redirect',
     },
     passport.authenticate('google'),
     function (req, res) {
-        const cmd = 'SELECT * FROM Flashcards where user="Jeonghwan";';
+        
+        const cmd = 'SELECT * FROM Flashcards where user="'+req.user+'";';
         db.get(cmd, countCallback);
 
         function countCallback(err, rowdata){
-            console.log("inc count callback");
+            console.log("in count callback");
             if (err) { console.log(err); }
             else{
                 console.log(rowdata);
@@ -208,10 +203,12 @@ function insertUserDB(first,last,userID){
 }
 
 function insertDB(user, english, korean, seen, correct){
-    const cmdStr = 'INSERT into Flashcards (user, english, korean, seen, correct) VALUES (@0, @1, @2, 0, 0)'
+    const cmdStr = 'INSERT into "Flashcards"(user, english, korean, seen, correct) VALUES (@0, @1, @2, 0, 0)'
 
-    db.run(cmdStr, user, english, korean, insertCallback);
+    db.run(cmdStr, [user.userData, english, korean], insertCallback);
     
+    console.log("here");
+
     function insertCallback(err) {
         if (err) { console.log(err); }
     }
@@ -248,15 +245,12 @@ function storeHandler(req, res, next) {
 
     let qObj = req.query;
 
-//if qObject.english != undefined -> run the function
-//if qObject.korean != undefined -> insert
-//else just translate (call API)
-
     if (qObj.english != undefined && qObj.korean != undefined){
         let eng = qObj.english;
         let kor = qObj.korean;
-        let user = "Jeonghwan";
-        console.log(kor);
+        let user = req.user;
+        console.log("!!!!!!!!!!!!!in store handler!!!!!!!!!!");
+        console.log(req.user);
         insertDB(user,eng,kor,0,0);
         console.log("inserted");
     }
