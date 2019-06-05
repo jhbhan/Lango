@@ -49,7 +49,6 @@ app.use(express.static('public'));
 
 app.get('/translate', translateHandler); //if /translate
 app.get('/store', storeHandler); //if /store
-app.get('/review', reviewHandler)
 app.use( fileNotFound );
 app.listen(port, function (){console.log('Listening...');} )
 
@@ -68,7 +67,7 @@ function printURL (req, res, next) {
 //
 //
 ////////////////
-app.get('/auth/google', passport.authenticate('google',{ scope: ['profile'] }) );//if /auth/google
+app.get('/auth/google',passport.authenticate('google',{ scope: ['profile'] }) );//if /auth/google
 app.get('/auth/redirect',
     function (req, res, next) {
         console.log("at auth/redirect");
@@ -81,10 +80,10 @@ app.get('/auth/redirect',
     // ...with a cookie in it for the Browser! 
     function (req, res) {
         console.log('Logged in and using cookies!')
-        res.redirect('/user/hello.html');
+        res.redirect('/public/review.html');
     });
 
-app.get('/user/*',
+app.get('/public/*',
     isAuthenticated,
     express.static('.') 
        ); 
@@ -98,7 +97,7 @@ function isAuthenticated(req, res, next) {
     console.log("Req.user:",req.user);
     next();
     } else {
-    res.redirect('/login.html');  // send response telling
+    res.redirect('/signin.html');  // send response telling
     // Browser to go to login page
     }
 }
