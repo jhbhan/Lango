@@ -82,6 +82,8 @@ app.get('/query', function (req, res) { res.send('HTTP query!') });
 app.get('/translate', translateHandler);
 app.get('/store', storeHandler);
 app.get('/getname', getNameHandler);
+app.get('/getDB',getDBHandler);
+app.get('/update',updateHandler);
 app.use( fileNotFound );
 app.listen(port, function (){console.log('Listening...');} )
 
@@ -204,7 +206,7 @@ function insertUserDB(first,last,userID){
 }
 
 function insertDB(user, english, korean, seen, correct){
-    const cmdStr = 'INSERT into "Flashcards"(user, english, korean, seen, correct) VALUES (@0, @1, @2, 0, 0)'
+    const cmdStr = 'INSERT into "Flashcards"(user, english, korean, seen, correct, score) VALUES (@0, @1, @2, 0, 0,0)'
 
     db.run(cmdStr, [user.userData, english, korean], insertCallback);
     
@@ -262,14 +264,54 @@ function getNameHandler(req,res,next){
     let userID = req.user.userData;
     let cmd = "SELECT first FROM Users where user="+userID;
 
-    db.run(cmd,getNameCallback);
+    db.run(cmd,getNameCallback,next);
     function getNameCallback(err, rowdata){
             console.log("in getName callback");
             if (err) { console.log(err); }
             else{
                 console.log(rowdata);
+                res.json({
+                            "first" : rowdata
+                        });
+        }
+    }
+}
+
+function getDBHandler(req,res,next){
+    const userID = req.user;
+    const cmd = 'SELECT * FROM Flashcards where user="'+req.user+'ORDER BY score DESC";';//or ASC
+
+    db.all(cmd, dataCallback,next);
+
+    function dataCallback(err, rowdata){
+        console.log("in dataCallback");
+        if (err) { console.log(err); }
+        else{
+            console.log(rowdata);
+            //res.json(rowdata);
+        }
+    }
+}
+
+function updateHandler(req,res,next){//query in form of /update?english=pie&seen=3&correct=3
+    const user = req.user;
+    const qObj = req.query;
+    const word = qObj.english;
+    const seen = qObj.seen;
+    const score = (max(1,5-correct) + max(1,5-seen) + 5*((seen-correct)/seen));
+    const correct = qObj.correct;
+
+    if (word != undefined && seen != undefined && correct !=undefined){
+        const cmd = 'UPDATE Flashcards SET seen= @0, correct= @1, score= @2 where user= @3';
+        db.run(cmd,[seen,correct,score,user],updateCallback);
+
+        function updateCallback(err) {
+        if (err) { console.log(err); }
         }
 
+    }else{
+        console("One of the query is undefined");
+        next();
     }
 }
 
