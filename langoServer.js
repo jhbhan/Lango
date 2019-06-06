@@ -298,8 +298,10 @@ function updateHandler(req,res,next){//query in form of /update?english=pie&seen
     const qObj = req.query;
     const word = qObj.english;
     const seen = qObj.seen;
-    const score = (max(1,5-correct) + max(1,5-seen) + 5*((seen-correct)/seen));
     const correct = qObj.correct;
+    const score = (max(1,5-correct) + max(1,5-seen) + 5*((seen-correct)/seen));
+
+    console.log("user is ",user," word is ",word," word is ",seen," correct is ",correct," score is ",score);
 
     if (word != undefined && seen != undefined && correct !=undefined){
         const cmd = 'UPDATE Flashcards SET seen= @0, correct= @1, score= @2 where user= @3';
