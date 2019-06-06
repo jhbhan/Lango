@@ -20,7 +20,7 @@ var CardPage = function (_React$Component) {
 
     _this.saveInput = _this.saveInput.bind(_this);
     _this.checkReturn = _this.checkReturn.bind(_this);
-    _this.receivedFirstWord = _this.receivedFirstWord.bind(_this);
+    // this.receivedFirstWord = this.receivedFirstWord.bind(this);
     _this.getDB = _this.getDB.bind(_this);
     // this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
     //   this.startReview = this.startRewview.bind(this);
@@ -48,21 +48,21 @@ var CardPage = function (_React$Component) {
         console.log("when loaded");
         var responseStr = xhr.responseText;
         var object = JSON.parse(responseStr);
-        this.setState({ displayed: WordToDispplay });
+        this.setState({ displayed: object[0].korean });
         // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
-        console.log(object.Korean);
+        console.log(object[0].korean);
       };
       xhr.onerror = function () {
         console.log("did not work");
       };
       xhr.send();
     }
-  }, {
-    key: "receivedFirstWord",
-    value: function receivedFirstWord(WordToDispplay) {
-      this.setState({ firstWord: false });
-      this.setState({ displayed: WordToDispplay });
-    }
+
+    // receivedFirstWord(WordToDispplay) {
+    //   this.setState({ firstWord: false });
+    //   this.setState({ displayed: WordToDispplay });
+    // }
+
   }, {
     key: "checkReturn",
     value: function checkReturn(event) {
