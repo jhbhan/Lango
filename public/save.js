@@ -69,7 +69,7 @@ var CardPage = function (_React$Component) {
       // render(){
 
       // }
-      window.location.href = 'Review.html';
+      window.location.href = 'review.html';
     }
   }, {
     key: "sendTranslateRequest",

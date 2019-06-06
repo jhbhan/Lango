@@ -59,7 +59,7 @@ app.get('/auth/redirect',
             else{
                 console.log(rowdata);
                 if (rowdata != undefined) {
-                    res.redirect('/Review.html');
+                    res.redirect('/review.html');
                 }
                 else{
                     res.redirect('/save.html');

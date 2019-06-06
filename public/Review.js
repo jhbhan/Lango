@@ -139,9 +139,10 @@ var CardPage = function (_React$Component5) {
     _this5.handleClick = function () {
       console.log("clicked");
       document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';
+      _this5.setState({ flipped: "true" });
     };
 
-    _this5.state = { userAnswer: "", seen: 0, changed: false, displayed: "", numCorrect: 0, correct: false, firstWord: true, counter: 0, responseStr: "", translated: "" };
+    _this5.state = { userAnswer: "", seen: 0, changed: false, displayed: "", numCorrect: 0, correct: false, firstWord: true, counter: 0, responseStr: "", translated: "", flipped: "false" };
 
     _this5.saveInput = _this5.saveInput.bind(_this5);
     _this5.checkReturn = _this5.checkReturn.bind(_this5);
@@ -199,8 +200,10 @@ var CardPage = function (_React$Component5) {
       this.setState({ userAnswer: "" });
       this.setState({ counter: counter });
       document.getElementById('output').value = "";
-      // document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';
-      //update database.
+      if (this.state.flipped == "true") {
+        document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(0deg);';
+        this.setState({ flipped: "false" });
+      }
     }
   }, {
     key: 'getFirstName',
@@ -245,6 +248,8 @@ var CardPage = function (_React$Component5) {
           console.log("false!");
           //when entered it needs to be flipped. 
         }
+        document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';
+        this.setState({ flipped: "true" });
       }
     }
   }, {
@@ -257,7 +262,7 @@ var CardPage = function (_React$Component5) {
     key: 'addButton',
     value: function addButton() {
       console.log("add clicked");
-      window.location.href = 'react.html';
+      window.location.href = 'save.html';
     }
   }, {
     key: 'render',

@@ -52,7 +52,7 @@ class CardBack extends React.Component {
 class CardPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { userAnswer: "", seen: 0, changed: false, displayed: "", numCorrect: 0, correct: false, firstWord: true, counter: 0, responseStr: "", translated: ""};
+    this.state = { userAnswer: "", seen: 0, changed: false, displayed: "", numCorrect: 0, correct: false, firstWord: true, counter: 0, responseStr: "", translated: "", flipped: "false"};
 
     this.saveInput = this.saveInput.bind(this);
     this.checkReturn = this.checkReturn.bind(this);
@@ -109,8 +109,12 @@ class CardPage extends React.Component {
     this.setState({userAnswer: ""});
     this.setState({ counter: counter });
     document.getElementById('output').value = "";
-    // document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';
-    //update database.
+    if(this.state.flipped == "true"){
+      document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(0deg);';
+      this.setState({flipped: "false"});
+    }
+
+
   }
 
 
@@ -156,6 +160,8 @@ class CardPage extends React.Component {
         console.log("false!")
         //when entered it needs to be flipped. 
       }
+      document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';
+      this.setState({flipped: "true"});
     }
   }
 
@@ -166,11 +172,12 @@ class CardPage extends React.Component {
   handleClick = () => {
     console.log("clicked");
     document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';
+    this.setState({flipped: "true"});
   }
 
   addButton(){
     console.log("add clicked");
-    window.location.href = 'react.html';
+    window.location.href = 'save.html';
   }
 
   render() {
