@@ -7,7 +7,7 @@ class CardPage extends React.Component {
     
     this.saveInput = this.saveInput.bind(this);
     this.checkReturn = this.checkReturn.bind(this);
-    this.receivedFirstWord = this.receivedFirstWord.bind(this);
+    // this.receivedFirstWord = this.receivedFirstWord.bind(this);
     this.getDB = this.getDB.bind(this);
     // this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
   //   this.startReview = this.startRewview.bind(this);
@@ -32,9 +32,9 @@ class CardPage extends React.Component {
         console.log("when loaded");
         var responseStr = xhr.responseText;
         var object = JSON.parse(responseStr);
-        this.setState({ displayed: WordToDispplay });
+        this.setState({ displayed: object[0].korean });
         // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
-        console.log(object.Korean);
+        console.log(object[0].korean);
     };
     xhr.onerror = function () {
         console.log("did not work");
@@ -42,10 +42,10 @@ class CardPage extends React.Component {
     xhr.send();
 }
 
-receivedFirstWord(WordToDispplay) {
-  this.setState({ firstWord: false });
-  this.setState({ displayed: WordToDispplay });
-}
+// receivedFirstWord(WordToDispplay) {
+//   this.setState({ firstWord: false });
+//   this.setState({ displayed: WordToDispplay });
+// }
 
   checkReturn(event){
     //Checks if enter is pressed
