@@ -3,12 +3,15 @@
 class CardPage extends React.Component {
   constructor(props){
     super(props);
-    this.state = { userAnswer: "", seen: 0, changed: false, displayed: "",numCorrect: 0, correct: false, firstWord: true};
+    this.state = { userAnswer: "", seen: 0, changed: false, displayed: "",numCorrect: 0, correct: false, firstWord: true, counter: 0, responseStr: ""};
     
     this.saveInput = this.saveInput.bind(this);
     this.checkReturn = this.checkReturn.bind(this);
     // this.receivedFirstWord = this.receivedFirstWord.bind(this);
     this.getDB = this.getDB.bind(this);
+    this.next = this.next.bind(this);
+    // this.next = this.next.bind(this);
+    // this.setDisplay = this.setDisplay(this);
     // this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
   //   this.startReview = this.startRewview.bind(this);
   }
@@ -21,7 +24,19 @@ class CardPage extends React.Component {
   
   getDB() {
     console.log("got in");
+
+   // var response = [{ user: '112956219092631454438', english: 'dddd', korean: 'asg',seen: 0,correct: 0,score: 9.95 },{ user: '112956219092631454438',english: 'ggg',korean: 'bysse',seen: 0,correct: 0,score: 4 } ];
+    var object = [{ user: '112956219092631454438', english: 'dddd', korean: 'asg',seen: 0,correct: 0,score: 9.95 },{ user: '112956219092631454438',english: 'ggg',korean: 'bysse',seen: 0,correct: 0,score: 4 },{ user: '112956219092631454438',english: 'aaaaa',korean: 'jfjfjfj',seen: 0,correct: 0,score: 4 } ];
+    console.log(object[0].korean);
+    this.setState({displayed:object[0].korean});
+    this.setState({responseStr: object});
+    console.log(this.state.responseStr);
+    //console.log(object[0].korean);
+    //this.setState({ displayed: object[0].korean });
+    //console.log(this.state.displayed);
     //intialize the output in the beginnning. 
+   // this.setState({ responseStr: response });
+    /*
     const url = '/getDB'
 
     var xhr = new XMLHttpRequest();
@@ -30,17 +45,25 @@ class CardPage extends React.Component {
 
     xhr.onload = function () {
         console.log("when loaded");
-        var responseStr = xhr.responseText;
-        var object = JSON.parse(responseStr);
-        this.setState({ displayed: object[0].korean });
+        var response = xhr.responseText;
+        this.setState({ responseStr: response });
         // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
-        console.log(object[0].korean);
-    };
+    }.bind(this);
     xhr.onerror = function () {
         console.log("did not work");
     };
-    xhr.send();
+    xhr.send();*/
 }
+
+next(){
+  var counter = this.state.counter + 1;
+  var object = this.state.responseStr;
+  this.setState({displayed:object[counter].korean});
+  this.setState({counter:counter});
+  //update database.
+}
+
+
 
 getFirstName() {
   console.log("got in2");
@@ -58,22 +81,17 @@ getFirstName() {
       this.setState({ displayed: object.first});
       // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
       console.log(object[0].korean);
-  };
+  }.bind(this);
   xhr.onerror = function () {
       console.log("did not work");
   };
   xhr.send();
 }
 
-// receivedFirstWord(WordToDispplay) {
-//   this.setState({ firstWord: false });
-//   this.setState({ displayed: WordToDispplay });
-// }
-
-  checkReturn(event){
+checkReturn(event){
     //Checks if enter is pressed
     if(event.charCode == 13){
-      this.sendTranslateRequest(this.state.value, this);
+      // this.sendTranslateRequest(this.state.value, this);
       //flip the card above. 
       // if correct then CORRECT GREEN
       // if wrong then the correct english transaltion. 
@@ -81,33 +99,12 @@ getFirstName() {
   }
   
 
-  addButton(){
-    // this.context.router.push('/home.html');
-  }
-  
-  receivedTranslateRequest(translatedWord){
-    //After response is received
-    this.setState({changed: true});
-    this.setState({displayed: translatedWord});
-  }
-
-  checkReturn(event){
-    if(event.charCode == 13){
-        this.sendCheckRequest(this.state.userAnswer, this.state.numCorrect, this.state.correct);
-        //flip the card above. 
-        // if correct then CORRECT GREEN
-        // if wrong then the correct english transaltion. 
-      }
-}
-
-sendCheckRequest(userAnswer, numCorrect, correct){
-
-}
   
   updateOutput(){
     //To change what's in the output box
     return this.state.displayed;
   }
+
   componentDidMount(){
     this.getDB();
     this.getFirstName();
@@ -117,6 +114,7 @@ sendCheckRequest(userAnswer, numCorrect, correct){
     let reviewOutput;
     // this.getDB();
     reviewOutput = this.state.displayed;
+    console.log(reviewOutput);
     // <textarea id="input" value={this.state.displayed} placeholder="Korean" />; //first word to display on the screen. 
     // }
     // else {
