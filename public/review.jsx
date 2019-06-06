@@ -60,10 +60,7 @@ class CardPage extends React.Component {
     this.getDB = this.getDB.bind(this);
     this.next = this.next.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    // this.next = this.next.bind(this);
-    // this.setDisplay = this.setDisplay(this);
-    // this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
-    //   this.startReview = this.startRewview.bind(this);
+    this.addButton = this.addButton.bind(this);
   }
 
   saveInput(event) {
@@ -109,12 +106,15 @@ class CardPage extends React.Component {
     var counter = this.state.counter + 1;
     var object = this.state.responseStr;
     this.setState({ translated: object[counter].korean });
+    this.setState({userAnswer: ""});
     this.setState({ counter: counter });
+    document.getElementById('output').value = "";
+    // document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';
     //update database.
   }
 
 
-
+  
   getFirstName() {
     console.log("got in2");
     //intialize the output in the beginnning. 
@@ -166,6 +166,11 @@ class CardPage extends React.Component {
   handleClick = () => {
     console.log("clicked");
     document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';
+  }
+
+  addButton(){
+    console.log("add clicked");
+    window.location.href = 'react.html';
   }
 
   render() {

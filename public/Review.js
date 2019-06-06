@@ -149,10 +149,7 @@ var CardPage = function (_React$Component5) {
     _this5.getDB = _this5.getDB.bind(_this5);
     _this5.next = _this5.next.bind(_this5);
     _this5.handleClick = _this5.handleClick.bind(_this5);
-    // this.next = this.next.bind(this);
-    // this.setDisplay = this.setDisplay(this);
-    // this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
-    //   this.startReview = this.startRewview.bind(this);
+    _this5.addButton = _this5.addButton.bind(_this5);
     return _this5;
   }
 
@@ -199,7 +196,10 @@ var CardPage = function (_React$Component5) {
       var counter = this.state.counter + 1;
       var object = this.state.responseStr;
       this.setState({ translated: object[counter].korean });
+      this.setState({ userAnswer: "" });
       this.setState({ counter: counter });
+      document.getElementById('output').value = "";
+      // document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';
       //update database.
     }
   }, {
@@ -252,6 +252,12 @@ var CardPage = function (_React$Component5) {
     value: function componentDidMount() {
       this.getDB();
       this.getFirstName();
+    }
+  }, {
+    key: 'addButton',
+    value: function addButton() {
+      console.log("add clicked");
+      window.location.href = 'react.html';
     }
   }, {
     key: 'render',

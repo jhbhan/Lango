@@ -62,10 +62,15 @@ var CardPage = function (_React$Component) {
         xhr.send();
       }
     }
+  }, {
+    key: "startReview",
+    value: function startReview() {
+      // this.context.router.push('/home.html');
+      // render(){
 
-    // startReview(){
-    // }
-
+      // }
+      window.location.href = 'review.html';
+    }
   }, {
     key: "sendTranslateRequest",
     value: function sendTranslateRequest(englishWord, card) {
@@ -130,12 +135,12 @@ var CardPage = function (_React$Component) {
         React.createElement(
           "div",
           { className: "textcard" },
-          React.createElement("textarea", { id: "input", placeholder: "English", onKeyPress: this.checkReturn, onChange: this.saveInput })
+          output
         ),
         React.createElement(
           "div",
           { className: "textcard" },
-          output
+          React.createElement("textarea", { id: "input", placeholder: "English", onKeyPress: this.checkReturn, onChange: this.saveInput })
         ),
         React.createElement(
           "div",
