@@ -1,3 +1,5 @@
+// import { withRouter } from 'react-router';
+// import styles from './lango.css';
 class CardPage extends React.Component {
   constructor(props){
     super(props);
@@ -6,7 +8,7 @@ class CardPage extends React.Component {
     this.saveInput = this.saveInput.bind(this);
     this.save = this.save.bind(this);
     this.checkReturn = this.checkReturn.bind(this);
-    //this.clearFlashcards = this.clearFlashcards.bind(this);
+    this.startReview = this.startReview.bind(this);
   }
   
   saveInput(event){
@@ -27,12 +29,9 @@ class CardPage extends React.Component {
     if(this.state.value != "" && this.state.displayed != ""){
       let eng = this.state.value;
       let kor = this.state.displayed;
-
       let url = "store?english="+eng+"&korean="+kor;
       console.log(url);
 
-
-      //this.clearFlashcards();
       let xhr = new XMLHttpRequest();
 
       xhr.open("GET", url, true);
@@ -46,16 +45,14 @@ class CardPage extends React.Component {
       xhr.send(); 
     }
   }
-/*
-//Doesn't work correctly yet
-  clearFlashcards(){
-    this.setState({value: "", displayed: "", changed: false});
-    console.log("states cleared");
-    console.log(this.state.value);
-    console.log(this.state.changed);
-    console.log(this.state.displayed);
+
+  startReview(){
+    // this.context.router.push('/home.html');
+    // render(){
+
+    // }
+    window.location.href = 'review.html';
   }
-  */
   
   sendTranslateRequest(englishWord, card){
     //Used to send englishWord for translation in API
@@ -99,11 +96,12 @@ class CardPage extends React.Component {
     return (
     <div>
       <h1 id="logo">Lango!</h1>
-      <div className="textcard">
-        <textarea id="input" placeholder="English" onKeyPress={this.checkReturn} onChange={this.saveInput}/>
-      </div>
+      <div className ="startReview_button"> <button onClick = {this.startReview}>Start Review</button></div>
       <div className="textcard">
         {output}
+      </div>
+      <div className="textcard">
+        <textarea id="input" placeholder="English" onKeyPress={this.checkReturn} onChange={this.saveInput}/>
       </div>
       <div className="save_button">
         <button onClick={this.save}>Save</button>
