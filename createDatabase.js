@@ -26,7 +26,7 @@ function initUserDB(){
 
 function initDB(user, english, korean, seen, correct){
 
-    const cmdStr = 'CREATE TABLE Flashcards (user TEXT, english TEXT UNIQUE, korean TEXT, seen INT, correct INT)'
+    const cmdStr = 'CREATE TABLE Flashcards (user TEXT, english TEXT UNIQUE, korean TEXT, seen INT, correct INT, score FLOAT)'
     db.run(cmdStr,tableCreationCallback);
 
     function tableCreationCallback(err) {
