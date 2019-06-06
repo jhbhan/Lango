@@ -151,7 +151,6 @@ var CardPage = function (_React$Component5) {
     _this5.next = _this5.next.bind(_this5);
     _this5.handleClick = _this5.handleClick.bind(_this5);
     _this5.addButton = _this5.addButton.bind(_this5);
-    _this5.update = _this5.update.bind(_this5);
     return _this5;
   }
 
@@ -164,11 +163,6 @@ var CardPage = function (_React$Component5) {
   }, {
     key: 'getDB',
     value: function getDB() {
-
-              if (this.state.flipped == "true") {
-          document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(0deg);';
-          this.setState({ flipped: "false" });
-        }
       console.log("got in");
 
       var url = '/getDB';
@@ -191,36 +185,39 @@ var CardPage = function (_React$Component5) {
       };
       xhr.send();
 
+      // var response = [{ user: '112956219092631454438', english: 'dddd', korean: 'asg',seen: 0,correct: 0,score: 9.95 },{ user: '112956219092631454438',english: 'ggg',korean: 'bysse',seen: 0,correct: 0,score: 4 } ];
+      //console.log(object[0].korean);
+      //this.setState({ displayed: object[0].korean });
+      //console.log(this.state.displayed);
+      //intialize the output in the beginnning. 
+      // this.setState({ responseStr: response });
+      /*
+      const url = '/getDB'
+       var xhr = new XMLHttpRequest();
+       xhr.open("GET", url, true);
+       xhr.onload = function () {
+          console.log("when loaded");
+          var response = xhr.responseText;
+          this.setState({ responseStr: response });
+          // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
+      }.bind(this);
+      xhr.onerror = function () {
+          console.log("did not work");
+      };
+      xhr.send();*/
     }
   }, {
     key: 'next',
     value: function next() {
-      this.update();
-
-
       var counter = this.state.counter + 1;
       var object = this.state.responseStr;
-      console.log('counter is at', counter);
-      console.log('length of object is', object.length);
-
-      if (counter == object.length){
-        alert("end of the line");
-        this.setState({counter:0});
-        this.setState({ userAnswer: "" });
-        document.getElementById('output').value = "";
-        this.getDB();
-        this.setState({correct:"false"});
-      }
-      else{
-        this.setState({ translated: object[counter].korean });
-        this.setState({ userAnswer: "" });
-        this.setState({ counter: counter });
-        document.getElementById('output').value = "";
-        if (this.state.flipped == "true") {
-          document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(0deg);';
-          this.setState({ flipped: "false" });
-      }
-      this.setState({correct:"false"});
+      this.setState({ translated: object[counter].korean });
+      this.setState({ userAnswer: "" });
+      this.setState({ counter: counter });
+      document.getElementById('output').value = "";
+      if (this.state.flipped == "true") {
+        document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(0deg);';
+        this.setState({ flipped: "false" });
       }
     }
   }, {
@@ -240,37 +237,8 @@ var CardPage = function (_React$Component5) {
         var object = JSON.parse(responseStr);
         this.setState({ user: object.first });
         // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
+        console.log(object[0].korean);
       }.bind(this);
-      xhr.onerror = function () {
-        console.log("did not work");
-      };
-      xhr.send();
-    }
-  },{
-    key: 'update',
-    value: function update() {
-      console.log("in update");
-      var currentCard = this.state.responseStr[this.state.counter];
-      var english = currentCard.english;
-      var seen = currentCard.seen + 1;
-      var numCorrect = currentCard.correct;
-      var correct = this.state.correct;
-      console.log(currentCard, english, seen, numCorrect,correct);
-      //intialize the output in the beginnning. 
-
-      if(correct == "true"){
-        numCorrect=numCorrect+1;
-      }
-
-      console.log("before query numCorrect", numCorrect);
-      let query = 'english='+english+'&seen='+seen+'&correct='+numCorrect;
-      let url = '/update?'+query;
-      console.log(url);
-
-      var xhr = new XMLHttpRequest();
-
-      xhr.open("GET", url, true);
-
       xhr.onerror = function () {
         console.log("did not work");
       };
@@ -288,13 +256,11 @@ var CardPage = function (_React$Component5) {
           this.setState({ displayed: "correct" });
           // this.forceUpdate();
           console.log("correct!");
-          this.setState({correct:"true"});
           //when entered it needs to flip as well. 
         } else {
           var correctWord = object[counter].english;
           this.setState({ displayed: correctWord });
           console.log("false!");
-          this.setState({correct:"false"});
           //when entered it needs to be flipped. 
         }
         document.getElementById('foo').style.cssText = '-webkit-transform: rotateY(180deg);';

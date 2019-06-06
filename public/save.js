@@ -61,6 +61,8 @@ var CardPage = function (_React$Component) {
         };
         xhr.send();
       }
+      document.getElementById('input').value = "";
+      document.getElementById('output').value = "";
     }
   }, {
     key: "startReview",
@@ -69,7 +71,7 @@ var CardPage = function (_React$Component) {
       // render(){
 
       // }
-      window.location.href = 'review.html';
+      window.location.href = 'Review.html';
     }
   }, {
     key: "sendTranslateRequest",
