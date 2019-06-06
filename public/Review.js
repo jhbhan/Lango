@@ -208,8 +208,8 @@ var CardPage = function (_React$Component5) {
   }, {
     key: 'getFirstName',
     value: function getFirstName() {
+      // this.setState({ user: "John" });
       console.log("got in2");
-      //intialize the output in the beginnning. 
       var url = '/getName';
 
       var xhr = new XMLHttpRequest();
@@ -221,7 +221,6 @@ var CardPage = function (_React$Component5) {
         var responseStr = xhr.responseText;
         var object = JSON.parse(responseStr);
         this.setState({ user: object.first });
-        // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
         console.log(object[0].korean);
       }.bind(this);
       xhr.onerror = function () {
@@ -272,7 +271,8 @@ var CardPage = function (_React$Component5) {
       console.log(reviewOutput);
       var translation = void 0;
       translation = this.state.translated;
-
+      var user = void 0;
+      user = this.state.user;
       return React.createElement(
         'div',
         null,
@@ -314,6 +314,11 @@ var CardPage = function (_React$Component5) {
             { onClick: this.next },
             'Next'
           )
+        ),
+        React.createElement(
+          'div',
+          { className: 'footer' },
+          user
         )
       );
     }

@@ -1,6 +1,7 @@
 /*- Typograpy and resets -*/
 html {
     font-size: 16px;
+    overflow: hidden;
   }
   
   body {
@@ -24,19 +25,36 @@ html {
     padding-bottom: 1vw;
     text-align: center;
     font-style: bold;
+    font-weight: 5vw;
   }
   
   h2 {
     margin-bottom: 12px;
     font-size: 18px;
     font-weight: 400;
+    /* left: 2vw; */
   }
   
   .card-side-container {
-      position: relative;
-      text-align:center;
-      top: 10vw;
-      
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      /* align-items: center; */
+      /* -webkit-flex: 2 0 0; */
+      /* position: relative; */
+      /* position: absolute;  */
+      text-align: center;
+      /* left: 5vw; */
+      width: 80%;
+      height: 80%;
+  }
+  
+  .side-front{
+    position: relative; 
+    left: 4vw;
+    text-align: center;
+    top: 50vw;
+    /* bottom: 50vw; */
   }
   
   /*- Card container -*/
@@ -92,15 +110,15 @@ html {
   
   /*- Back side -*/
   .side-back {
-    z-index: 2;
-    padding: 32px;
+    /* z-index: 10; */
+    /* padding: 32px; */
     text-align: center;
     -webkit-transform: rotateY(180deg);
             transform: rotateY(180deg);
   }
   
   
-  input,
+  /* input,
   textarea {
     padding: 8px;
     width: 100%;
@@ -113,14 +131,14 @@ html {
   textarea:focus {
     outline: 0;
     border-bottom: 1px solid #0c81f6;
-  }
+  } */
   
   textarea {
     max-height: 80px;
     resize: vertical;
   }
   
-  .btn-primary {
+  /* .btn-primary {
     padding: 8px 16px;
     font-size: 16px;
     background-color: #0c81f6;
@@ -132,7 +150,7 @@ html {
   .btn-primary:focus, .btn-primary:active {
     background-color: #56a7f9;
     box-shadow: 0 18px 35px rgba(50, 50, 93, 0.1), 0 8px 15px rgba(0, 0, 0, 0.07);
-  }
+  } */
   
   textarea:focus {
     outline: none;
@@ -143,18 +161,19 @@ html {
   }
   
 
+
   /*style*/
 
   .next_button{
     position: relative;
     left: 63vw;
-    top: 4vw;
+    bottom: 2vw;
 }
 
 .add_button{
     position: relative; 
-    bottom: 5.5vw;
-    left: 4vw;
+    bottom: 5.3vw;
+    left: 6vw;
 }
 
 .next_button button{
@@ -165,7 +184,7 @@ html {
     color: white;
     font-size: 2vw;
     /* margin: 4px 2px; */
-    padding: 1vw 4vw;
+    padding: .5vw 2vw;
     border-radius: 12px;
     font-style: Helvetica; 
 }
@@ -178,9 +197,12 @@ html {
     color: white;
     font-size: 2vw;
     /* margin: 4px 2px; */
-    padding: .9vw 3vw;
+    padding: .9vw 2vw;
     border-radius: 12px;
     font-style: Helvetica; 
+}
+.class{
+  align-content: center;
 }
 #output{
   /* margin-top: 2.5vw; */
@@ -189,10 +211,22 @@ html {
   border-width: 4px;
   border-color: gray;
   width: 40vw;
-  height: 2vw;
+  height: 3vw;
   /* float: right; */
-  margin-left: 24vw;
+  /* margin-left: 24vw; */
+  margin:auto;
+  position: relative; 
   text-align: center;
   font-style: Helvetica;
-  font-size: 1vw;
+  font-size: 1.5vw;
+  bottom: 4vw;
+  left: 30vw;
+}
+
+.footer{
+  width:100%;
+  text-align: center;
+  background-color:  #606B9B;
+  padding-top: 1.5vw;
+  padding-bottom:2vw;
 }

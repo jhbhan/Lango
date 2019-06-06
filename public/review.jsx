@@ -120,8 +120,8 @@ class CardPage extends React.Component {
 
   
   getFirstName() {
+    // this.setState({ user: "John" });
     console.log("got in2");
-    //intialize the output in the beginnning. 
     const url = '/getName'
 
     var xhr = new XMLHttpRequest();
@@ -133,7 +133,6 @@ class CardPage extends React.Component {
       var responseStr = xhr.responseText;
       var object = JSON.parse(responseStr);
       this.setState({ user: object.first });
-      // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
       console.log(object[0].korean);
     }.bind(this);
     xhr.onerror = function () {
@@ -186,11 +185,15 @@ class CardPage extends React.Component {
     console.log(reviewOutput);
     let translation; 
     translation = this.state.translated;
-
+    let user;
+    user = this.state.user;
     return (
       <div>
         <h1 id="logo">Lango!</h1>
         <div className="add_button"> <button onClick={this.addButton}>Add</button></div>
+        {/* <div className="refresh_img_container">
+          <img src="noun.jpg" id= "refresh_img"></img>
+        </div> */}
         <div className='card-container' onClick={this.handleClick}>
           <div className='card-body' id="foo">
             <CardBack text={reviewOutput} />
@@ -205,6 +208,7 @@ class CardPage extends React.Component {
         <div className="next_button">
           <button onClick={this.next}>Next</button>
         </div>
+        <div className="footer">{user}</div>
       </div>
     );
   }
