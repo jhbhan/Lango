@@ -6,162 +6,35 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-/*
-   This flipcard component is based on the flipcard component by
-   Alex Devero, at:
-   
-      https://reactjsexample.com/react-flipping-card-with-tutorial/
+// import { withRouter } from 'react-router';
 
-   It was modified for ECS 162 by Nina Amenta, May 2019.
-*/
+var CardPage = function (_React$Component) {
+  _inherits(CardPage, _React$Component);
 
-var cardContainer = document.querySelector('.react-card');
+  function CardPage(props) {
+    _classCallCheck(this, CardPage);
 
-// React component for form inputs
+    var _this = _possibleConstructorReturn(this, (CardPage.__proto__ || Object.getPrototypeOf(CardPage)).call(this, props));
 
-var CardInput = function (_React$Component) {
-  _inherits(CardInput, _React$Component);
+    _this.state = { userAnswer: "", seen: 0, changed: false, displayed: "", numCorrect: 0, correct: false, firstWord: true };
 
-  function CardInput() {
-    _classCallCheck(this, CardInput);
-
-    return _possibleConstructorReturn(this, (CardInput.__proto__ || Object.getPrototypeOf(CardInput)).apply(this, arguments));
-  }
-
-  _createClass(CardInput, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'fieldset',
-        null,
-        React.createElement('input', { name: this.props.name, id: this.props.id, type: this.props.type || 'text', placeholder: this.props.placeholder, required: true })
-      );
-    }
-  }]);
-
-  return CardInput;
-}(React.Component);
-
-// React component for textarea
-
-
-var CardTextarea = function (_React$Component2) {
-  _inherits(CardTextarea, _React$Component2);
-
-  function CardTextarea() {
-    _classCallCheck(this, CardTextarea);
-
-    return _possibleConstructorReturn(this, (CardTextarea.__proto__ || Object.getPrototypeOf(CardTextarea)).apply(this, arguments));
-  }
-
-  _createClass(CardTextarea, [{
-    key: 'render',
-    value: function render() {
-      return React.createElement(
-        'fieldset',
-        null,
-        React.createElement('textarea', { name: this.props.name, id: this.props.id, placeholder: this.props.placeholder, required: true })
-      );
-    }
-  }]);
-
-  return CardTextarea;
-}(React.Component);
-
-// React component for the front side of the card
-
-
-var CardFront = function (_React$Component3) {
-  _inherits(CardFront, _React$Component3);
-
-  function CardFront() {
-    _classCallCheck(this, CardFront);
-
-    return _possibleConstructorReturn(this, (CardFront.__proto__ || Object.getPrototypeOf(CardFront)).apply(this, arguments));
-  }
-
-  _createClass(CardFront, [{
-    key: 'render',
-    value: function render(props) {
-      return React.createElement(
-        'div',
-        { className: 'card-side side-front' },
-        React.createElement(
-          'div',
-          { className: 'card-side-container' },
-          React.createElement(
-            'h2',
-            { id: 'trans' },
-            this.props.text
-          )
-        )
-      );
-    }
-  }]);
-
-  return CardFront;
-}(React.Component);
-
-// React component for the back side of the card
-
-
-var CardBack = function (_React$Component4) {
-  _inherits(CardBack, _React$Component4);
-
-  function CardBack() {
-    _classCallCheck(this, CardBack);
-
-    return _possibleConstructorReturn(this, (CardBack.__proto__ || Object.getPrototypeOf(CardBack)).apply(this, arguments));
-  }
-
-  _createClass(CardBack, [{
-    key: 'render',
-    value: function render(props) {
-      return React.createElement(
-        'div',
-        { className: 'card-side side-back' },
-        React.createElement(
-          'div',
-          { className: 'card-side-container' },
-          React.createElement(
-            'h2',
-            { id: 'congrats' },
-            this.props.text
-          )
-        )
-      );
-    }
-  }]);
-
-  return CardBack;
-}(React.Component);
-
-// React component for the card (main component)
-
-
-var Card = function (_React$Component5) {
-  _inherits(Card, _React$Component5);
-
-  function Card(props) {
-    _classCallCheck(this, Card);
-
-    var _this5 = _possibleConstructorReturn(this, (Card.__proto__ || Object.getPrototypeOf(Card)).call(this, props));
-
-    _this5.state = { userAnswer: "", output: "No Answer", correct: "false", displayed: "", numCorrect: 0, firstWord: true, userName: "" };
-
-    _this5.saveInput = _this5.saveInput.bind(_this5);
-    _this5.checkReturn = _this5.checkReturn.bind(_this5);
-    _this5.getDB = _this5.getDB.bind(_this5);
-    _this5.getFirstName = _this5.getFirstName(_this5);
+    _this.saveInput = _this.saveInput.bind(_this);
+    _this.checkReturn = _this.checkReturn.bind(_this);
     // this.receivedFirstWord = this.receivedFirstWord.bind(this);
-    // this.getDB = this.getDB.bind(this);
+    _this.getDB = _this.getDB.bind(_this);
     // this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
     //   this.startReview = this.startRewview.bind(this);
-    return _this5;
+    return _this;
   }
 
-  _createClass(Card, [{
-    key: 'getDB',
+  _createClass(CardPage, [{
+    key: "saveInput",
+    value: function saveInput(event) {
+      //Updates value whenever textbox is changed
+      this.setState({ userAnswer: event.target.value });
+    }
+  }, {
+    key: "getDB",
     value: function getDB() {
       console.log("got in");
       //intialize the output in the beginnning. 
@@ -185,11 +58,12 @@ var Card = function (_React$Component5) {
       xhr.send();
     }
   }, {
-    key: 'getFirstName',
+    key: "getFirstName",
     value: function getFirstName() {
-      console.log("got in");
+      console.log("got in2");
       //intialize the output in the beginnning. 
       var url = '/getName';
+
       var xhr = new XMLHttpRequest();
 
       xhr.open("GET", url, true);
@@ -198,100 +72,123 @@ var Card = function (_React$Component5) {
         console.log("when loaded");
         var responseStr = xhr.responseText;
         var object = JSON.parse(responseStr);
-        this.setState({ userName: object[0].first });
+        this.setState({ displayed: object.first });
         // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
-        // console.log(object[0].korean);
+        console.log(object[0].korean);
       };
       xhr.onerror = function () {
         console.log("did not work");
       };
       xhr.send();
     }
+
+    // receivedFirstWord(WordToDispplay) {
+    //   this.setState({ firstWord: false });
+    //   this.setState({ displayed: WordToDispplay });
+    // }
+
   }, {
-    key: 'checkReturn',
+    key: "checkReturn",
     value: function checkReturn(event) {
+      //Checks if enter is pressed
       if (event.charCode == 13) {
-        console.log("got in!");
-        if (this.state.userAnswer == "Volare") {
-          this.setState({ correct: "true" });
-          // this.forceUpdate();
-          console.log("correct!");
-        } else {
-          this.setState({ output: "false" });
-          this.setState({ correct: "false" });
-          console.log("false!");
-        }
+        this.sendTranslateRequest(this.state.value, this);
         //flip the card above. 
         // if correct then CORRECT GREEN
         // if wrong then the correct english transaltion. 
       }
     }
   }, {
-    key: 'saveInput',
-    value: function saveInput(event) {
-      this.setState({ userAnswer: event.target.value });
+    key: "addButton",
+    value: function addButton() {
+      // this.context.router.push('/home.html');
     }
   }, {
-    key: 'updateOutput',
+    key: "receivedTranslateRequest",
+    value: function receivedTranslateRequest(translatedWord) {
+      //After response is received
+      this.setState({ changed: true });
+      this.setState({ displayed: translatedWord });
+    }
+  }, {
+    key: "checkReturn",
+    value: function checkReturn(event) {
+      if (event.charCode == 13) {
+        this.sendCheckRequest(this.state.userAnswer, this.state.numCorrect, this.state.correct);
+        //flip the card above. 
+        // if correct then CORRECT GREEN
+        // if wrong then the correct english transaltion. 
+      }
+    }
+  }, {
+    key: "sendCheckRequest",
+    value: function sendCheckRequest(userAnswer, numCorrect, correct) {}
+  }, {
+    key: "updateOutput",
     value: function updateOutput() {
       //To change what's in the output box
-      return this.state.output;
+      return this.state.displayed;
     }
   }, {
-    key: 'componentDidMount',
+    key: "componentDidMount",
     value: function componentDidMount() {
       this.getDB();
       this.getFirstName();
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
-      console.log("rendered");
-      var output = void 0;
-      if (this.state.correct == "true") {
-        console.log("hi");
-        // output = <textarea id="correct!" text={this.updateOutput()}/>;
-        output = "correct";
-      } else {
-        console.log("bye");
-        output = "nothing";
-      }
+      var reviewOutput = void 0;
+      // this.getDB();
+      reviewOutput = this.state.displayed;
+      // <textarea id="input" value={this.state.displayed} placeholder="Korean" />; //first word to display on the screen. 
+      // }
+      // else {
+      //     reviewOutput = <textarea id="input" readOnly={true} placeholder="Korean" />; 
+      // }
 
-      var translation = void 0;
-      translation = this.state.displayed; //first word to display on the screen. 
-      var userID = void 0;
-      userID = this.state.user;
       return React.createElement(
-        'div',
+        "div",
         null,
         React.createElement(
-          'div',
-          { className: 'card-container' },
+          "h1",
+          { id: "logo" },
+          "Lango!"
+        ),
+        React.createElement(
+          "div",
+          { className: "add_button" },
+          " ",
           React.createElement(
-            'div',
-            { className: 'card-body' },
-            React.createElement(CardBack, { text: output }),
-            React.createElement(CardFront, { text: translation })
+            "button",
+            { onClick: this.addButton },
+            "Add"
           )
         ),
         React.createElement(
-          'div',
-          { className: 'textcard' },
-          React.createElement('textarea', { id: 'output', placeholder: 'Translate the word above to English', onKeyPress: this.checkReturn, onChange: this.saveInput })
+          "div",
+          { className: "textcard" },
+          reviewOutput
         ),
         React.createElement(
-          'div',
-          null,
-          user
+          "div",
+          { className: "textcard" },
+          React.createElement("textarea", { id: "output", placeholder: "Translate the word above to English", onKeyPress: this.checkReturn, onChange: this.saveInput })
+        ),
+        React.createElement(
+          "div",
+          { className: "next_button" },
+          React.createElement(
+            "button",
+            { onClick: this.next },
+            "Next"
+          )
         )
       );
     }
   }]);
 
-  return Card;
+  return CardPage;
 }(React.Component);
 
-// Render Card component
-
-
-ReactDOM.render(React.createElement(Card, null), cardContainer);
+ReactDOM.render(React.createElement(CardPage, null), document.getElementById('root'));
