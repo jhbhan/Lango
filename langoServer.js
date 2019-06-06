@@ -29,7 +29,7 @@ const googleLoginData = {
 };
 passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
 const app = express();
-
+app.use('/', printURL);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(cookieSession({
@@ -261,34 +261,33 @@ function storeHandler(req, res, next) {
 }
 
 function getNameHandler(req,res,next){
-    let userID = req.user.userData;
-    let cmd = "SELECT first FROM Users where user="+userID;
+    console.log("in getNameHandler");
+    let userID = req.user;
+    const cmd = 'SELECT first FROM Users where userID="'+req.user+'";';
 
-    db.run(cmd,getNameCallback,next);
+    db.get(cmd,getNameCallback,next);
     function getNameCallback(err, rowdata){
             console.log("in getName callback");
             if (err) { console.log(err); }
             else{
                 console.log(rowdata);
-                res.json({
-                            "first" : rowdata
-                        });
+                res.json(rowdata);
         }
     }
 }
 
 function getDBHandler(req,res,next){
-    const userID = req.user;
-    const cmd = 'SELECT * FROM Flashcards where user="'+req.user+'ORDER BY score DESC";';//or ASC
+    console.log("in getDBHandler");
+    const userID = req.user.userData;
+    const cmd = 'SELECT * FROM Flashcards where user="'+userID+'" ORDER BY score DESC;';//or ASC
 
-    db.all(cmd, dataCallback,next);
-
+    db.all(cmd, dataCallback);
     function dataCallback(err, rowdata){
         console.log("in dataCallback");
         if (err) { console.log(err); }
         else{
             console.log(rowdata);
-            //res.json(rowdata);
+            res.json(rowdata);
         }
     }
 }
