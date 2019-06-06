@@ -59,7 +59,7 @@ app.get('/auth/redirect',
             else{
                 console.log(rowdata);
                 if (rowdata != undefined) {
-                    res.redirect('/review.html');
+                    res.redirect('/Review.html');
                 }
                 else{
                     res.redirect('/save.html');
@@ -68,6 +68,8 @@ app.get('/auth/redirect',
 
     
     });
+
+
 app.get('/user/*',
     isAuthenticated, // only pass on to following function if
     // user is logged in 
@@ -206,10 +208,11 @@ function insertUserDB(first,last,userID){
 }
 
 function insertDB(user, english, korean, seen, correct){
-    const cmdStr = 'INSERT into "Flashcards"(user, english, korean, seen, correct, score) VALUES (@0, @1, @2, 0, 0,0)'
 
-    db.run(cmdStr, [user.userData, english, korean], insertCallback);
-    
+    let score = (max(1,5-correct) + max(1,5-seen) + 5*((seen-correct)/seen));
+    const cmdStr = 'INSERT into "Flashcards"(user, english, korean, seen, correct, score) VALUES (@0, @1, @2, 0, 0,@3)'
+
+    db.run(cmdStr, [user.userData, english, korean, score], insertCallback);
     function insertCallback(err) {
         if (err) { console.log(err); }
     }
@@ -262,10 +265,10 @@ function storeHandler(req, res, next) {
 
 function getNameHandler(req,res,next){
     console.log("in getNameHandler");
-    let userID = req.user;
-    const cmd = 'SELECT first FROM Users where userID="'+req.user+'";';
+    let userID = req.user.userData;
+    const cmd = 'SELECT first FROM Users where userID="'+userID+'";';
 
-    db.get(cmd,getNameCallback,next);
+    db.get(cmd,getNameCallback);
     function getNameCallback(err, rowdata){
             console.log("in getName callback");
             if (err) { console.log(err); }
@@ -360,3 +363,10 @@ function returnFunction(res, requestObject){
         );
 }
 
+function max(a,b){
+    if (a>b){
+        return a;
+    }else{
+        return b;
+    }
+}
