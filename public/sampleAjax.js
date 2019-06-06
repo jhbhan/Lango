@@ -9,7 +9,6 @@ function getDB(){
         console.log("when loaded");
         var responseStr = xhr.responseText;
         var object = JSON.parse(responseStr);
-
     };
     xhr.onerror = function () {
         console.log("did not work");
