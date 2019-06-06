@@ -16,12 +16,13 @@ var CardPage = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (CardPage.__proto__ || Object.getPrototypeOf(CardPage)).call(this, props));
 
-    _this.state = { value: "", changed: false, displayed: "" };
+    _this.state = { userAnswer: "", seen: 0, changed: false, displayed: "", numCorrect: 0, correct: false, firstWord: true };
 
     _this.saveInput = _this.saveInput.bind(_this);
-    _this.next = _this.next.bind(_this);
     _this.checkReturn = _this.checkReturn.bind(_this);
-    _this.firstName = _this.firstName.bind(_this);
+    _this.receivedFirstWord = _this.receivedFirstWord.bind(_this);
+    _this.getDB = _this.getDB.bind(_this);
+    _this.sendTranslateRequest = _this.sendTranslateRequest.bind(_this);
     //   this.startReview = this.startRewview.bind(this);
     return _this;
   }
@@ -33,19 +34,32 @@ var CardPage = function (_React$Component) {
       this.setState({ value: event.target.value });
     }
   }, {
-    key: "firstName",
-    value: function firstName(event) {
+    key: "getDB",
+    value: function getDB(event) {
+      //intialize the output in the beginnning. 
+      var url = '/getDB';
+
       var xhr = new XMLHttpRequest();
-      var _url = "getname?"
+
       xhr.open("GET", url, true);
 
       xhr.onload = function () {
-        console.log("next");
+        console.log("when loaded");
+        var responseStr = xhr.responseText;
+        var object = JSON.parse(responseStr);
+        event.receivedFirstWord(object.Korean); //ask Jason what's the first word here? 
+        console.log(object.Korean);
       };
       xhr.onerror = function () {
         console.log("did not work");
       };
       xhr.send();
+    }
+  }, {
+    key: "receivedFirstWord",
+    value: function receivedFirstWord(WordToDispplay) {
+      this.setState({ firstWord: false });
+      this.setState({ displayed: translatedWord });
     }
   }, {
     key: "checkReturn",
@@ -56,29 +70,6 @@ var CardPage = function (_React$Component) {
         //flip the card above. 
         // if correct then CORRECT GREEN
         // if wrong then the correct english transaltion. 
-      }
-    }
-  }, {
-    key: "next",
-    value: function next(event) {
-      //puts out the next button
-      if (this.state.value != "" && this.state.displayed != "") {
-        var eng = this.state.value;
-        var kor = this.state.displayed;
-        var _url = "store?english=" + eng + "&korean=" + kor;
-        console.log(_url);
-
-        var xhr = new XMLHttpRequest();
-
-        xhr.open("GET", _url, true);
-
-        xhr.onload = function () {
-          console.log("next");
-        };
-        xhr.onerror = function () {
-          console.log("did not work");
-        };
-        xhr.send();
       }
     }
   }, {
@@ -114,6 +105,19 @@ var CardPage = function (_React$Component) {
       this.setState({ displayed: translatedWord });
     }
   }, {
+    key: "checkReturn",
+    value: function checkReturn(event) {
+      if (event.charCode == 13) {
+        this.sendCheckRequest(this.state.userAnswer, this.state.numCorrect, this.state.correct);
+        //flip the card above. 
+        // if correct then CORRECT GREEN
+        // if wrong then the correct english transaltion. 
+      }
+    }
+  }, {
+    key: "sendCheckRequest",
+    value: function sendCheckRequest(userAnswer, numCorrect, correct) {}
+  }, {
     key: "updateOutput",
     value: function updateOutput() {
       //To change what's in the output box
@@ -122,11 +126,12 @@ var CardPage = function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var output = void 0;
-      if (this.state.changed) {
-        output = React.createElement("textarea", { id: "input", value: this.updateOutput(), placeholder: "Korean" });
+      var reviewOutput = void 0;
+      if (this.state.firstWord) {
+        this.getDB;
+        reviewOutput = React.createElement("textarea", { id: "input", value: this.state.displayed, placeholder: "Korean" }); //first word to display on the screen. 
       } else {
-        output = React.createElement("textarea", { id: "input", readOnly: true, placeholder: "Korean" });
+        reviewOutput = React.createElement("textarea", { id: "input", readOnly: true, placeholder: "Korean" });
       }
 
       return React.createElement(
@@ -150,7 +155,7 @@ var CardPage = function (_React$Component) {
         React.createElement(
           "div",
           { className: "textcard" },
-          output
+          reviewOutput
         ),
         React.createElement(
           "div",

@@ -3,12 +3,13 @@
 class CardPage extends React.Component {
   constructor(props){
     super(props);
-    this.state = {value: "", changed: false, displayed: ""};
+    this.state = { userAnswer: "", seen: 0, changed: false, displayed: "",numCorrect: 0, correct: false, firstWord: true};
     
     this.saveInput = this.saveInput.bind(this);
-    this.next = this.next.bind(this);
     this.checkReturn = this.checkReturn.bind(this);
-    this.firstName = this.firstName.bind(this);
+    this.receivedFirstWord = this.receivedFirstWord.bind(this);
+    this.getDB = this.getDB.bind(this);
+    this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
   //   this.startReview = this.startRewview.bind(this);
   }
   
@@ -17,21 +18,32 @@ class CardPage extends React.Component {
     this.setState({value: event.target.value});
 
   }
+  getDB(event) {
+    //intialize the output in the beginnning. 
+    const url = '/getDB'
 
-  firstName(event){
-    let xhr = new XMLHttpRequest();
-    var _url = "getname?";
+    var xhr = new XMLHttpRequest();
+
     xhr.open("GET", url, true);
 
-    xhr.onload = function() {
-        console.log("next");
+    xhr.onload = function () {
+        console.log("when loaded");
+        var responseStr = xhr.responseText;
+        var object = JSON.parse(responseStr);
+        event.receivedFirstWord(object.Korean); //ask Jason what's the first word here? 
+        console.log(object.Korean);
     };
-    xhr.onerror = function() {
+    xhr.onerror = function () {
         console.log("did not work");
     };
-    xhr.send(); 
-  }
-  
+    xhr.send();
+}
+
+receivedFirstWord(WordToDispplay) {
+  this.setState({ firstWord: false });
+  this.setState({ displayed: translatedWord });
+}
+
   checkReturn(event){
     //Checks if enter is pressed
     if(event.charCode == 13){
@@ -42,27 +54,6 @@ class CardPage extends React.Component {
     }
   }
   
-  next(event){
-    //puts out the next button
-    if(this.state.value != "" && this.state.displayed != ""){
-      let eng = this.state.value;
-      let kor = this.state.displayed;
-      let url = "store?english="+eng+"&korean="+kor;
-      console.log(url);
-
-      let xhr = new XMLHttpRequest();
-
-      xhr.open("GET", url, true);
-
-      xhr.onload = function() {
-        console.log("next");
-       };
-      xhr.onerror = function() {
-        console.log("did not work");
-       };
-      xhr.send(); 
-    }
-  }
 
   addButton(){
     // this.context.router.push('/home.html');
@@ -92,6 +83,19 @@ class CardPage extends React.Component {
     this.setState({changed: true});
     this.setState({displayed: translatedWord});
   }
+
+  checkReturn(event){
+    if(event.charCode == 13){
+        this.sendCheckRequest(this.state.userAnswer, this.state.numCorrect, this.state.correct);
+        //flip the card above. 
+        // if correct then CORRECT GREEN
+        // if wrong then the correct english transaltion. 
+      }
+}
+
+sendCheckRequest(userAnswer, numCorrect, correct){
+
+}
   
   updateOutput(){
     //To change what's in the output box
@@ -99,30 +103,31 @@ class CardPage extends React.Component {
   }
 
   render() {
-    let output;
-    if(this.state.changed){
-      output = <textarea id="input" value={this.updateOutput()} placeholder="Korean"/>;
+    let reviewOutput;
+    if (this.state.firstWord) {
+        this.getDB;
+        reviewOutput = <textarea id="input" value={this.state.displayed} placeholder="Korean" />; //first word to display on the screen. 
     }
-    else{
-      output = <textarea id="input" readOnly={true} placeholder="Korean"/>;
+    else {
+        reviewOutput = <textarea id="input" readOnly={true} placeholder="Korean" />; 
     }
-  
+
     return (
-    <div>
-      <h1 id="logo">Lango!</h1>
-      <div className ="add_button"> <button onClick = {this.addButton}>Add</button></div>
-      <div className="textcard">
-        {output}
-      </div>
-      <div className="textcard">
-        <textarea id="output" placeholder="Translate the word above to English" onKeyPress={this.checkReturn} onChange={this.saveInput}/>
-      </div>
-      <div className="next_button">
-        <button onClick={this.next}>Next</button>
-      </div>
-    </div>
+        <div>
+            <h1 id="logo">Lango!</h1>
+            <div className="add_button"> <button onClick={this.addButton}>Add</button></div>
+            <div className="textcard">
+                {reviewOutput}
+            </div>
+            <div className="textcard">
+                <textarea id="output" placeholder="Translate the word above to English" onKeyPress={this.checkReturn} onChange={this.saveInput} />
+            </div>
+            <div className="next_button">
+                <button onClick={this.next}>Next</button>
+            </div>
+        </div>
     );
-  }
+}
 }
 
 
