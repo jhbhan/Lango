@@ -9,16 +9,18 @@ class CardPage extends React.Component {
     this.checkReturn = this.checkReturn.bind(this);
     this.receivedFirstWord = this.receivedFirstWord.bind(this);
     this.getDB = this.getDB.bind(this);
-    this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
+    // this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
   //   this.startReview = this.startRewview.bind(this);
   }
   
   saveInput(event){
     //Updates value whenever textbox is changed
-    this.setState({value: event.target.value});
+    this.setState({userAnswer: event.target.value});
 
   }
-  getDB(event) {
+  
+  getDB() {
+    console.log("got in");
     //intialize the output in the beginnning. 
     const url = '/getDB'
 
@@ -30,7 +32,8 @@ class CardPage extends React.Component {
         console.log("when loaded");
         var responseStr = xhr.responseText;
         var object = JSON.parse(responseStr);
-        event.receivedFirstWord(object.Korean); //ask Jason what's the first word here? 
+        this.setState({ displayed: WordToDispplay });
+        // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
         console.log(object.Korean);
     };
     xhr.onerror = function () {
@@ -41,7 +44,7 @@ class CardPage extends React.Component {
 
 receivedFirstWord(WordToDispplay) {
   this.setState({ firstWord: false });
-  this.setState({ displayed: translatedWord });
+  this.setState({ displayed: WordToDispplay });
 }
 
   checkReturn(event){
@@ -57,25 +60,6 @@ receivedFirstWord(WordToDispplay) {
 
   addButton(){
     // this.context.router.push('/home.html');
-  }
-  
-  sendTranslateRequest(englishWord, card){
-    //Used to send englishWord for translation in API
-    let url = "translate?english="+englishWord;
-
-    let xhr = new XMLHttpRequest();
-
-    xhr.open("GET", url, true);
-
-    xhr.onload = function() {
-      let responseStr = xhr.responseText;
-      let object = JSON.parse(responseStr);
-      card.receivedTranslateRequest(object.Korean);
-     };
-     xhr.onerror = function() {
-      console.log("did not work");
-     };
-    xhr.send(); 
   }
   
   receivedTranslateRequest(translatedWord){
@@ -101,16 +85,18 @@ sendCheckRequest(userAnswer, numCorrect, correct){
     //To change what's in the output box
     return this.state.displayed;
   }
+  componentDidMount(){
+    this.getDB();
+  }
 
   render() {
     let reviewOutput;
-    if (this.state.firstWord) {
-        this.getDB;
-        reviewOutput = <textarea id="input" value={this.state.displayed} placeholder="Korean" />; //first word to display on the screen. 
-    }
-    else {
-        reviewOutput = <textarea id="input" readOnly={true} placeholder="Korean" />; 
-    }
+    // this.getDB();
+    reviewOutput = <textarea id="input" value={this.state.displayed} placeholder="Korean" />; //first word to display on the screen. 
+    // }
+    // else {
+    //     reviewOutput = <textarea id="input" readOnly={true} placeholder="Korean" />; 
+    // }
 
     return (
         <div>

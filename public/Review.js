@@ -22,7 +22,7 @@ var CardPage = function (_React$Component) {
     _this.checkReturn = _this.checkReturn.bind(_this);
     _this.receivedFirstWord = _this.receivedFirstWord.bind(_this);
     _this.getDB = _this.getDB.bind(_this);
-    _this.sendTranslateRequest = _this.sendTranslateRequest.bind(_this);
+    // this.sendTranslateRequest = this.sendTranslateRequest.bind(this);
     //   this.startReview = this.startRewview.bind(this);
     return _this;
   }
@@ -31,11 +31,12 @@ var CardPage = function (_React$Component) {
     key: "saveInput",
     value: function saveInput(event) {
       //Updates value whenever textbox is changed
-      this.setState({ value: event.target.value });
+      this.setState({ userAnswer: event.target.value });
     }
   }, {
     key: "getDB",
-    value: function getDB(event) {
+    value: function getDB() {
+      console.log("got in");
       //intialize the output in the beginnning. 
       var url = '/getDB';
 
@@ -47,7 +48,8 @@ var CardPage = function (_React$Component) {
         console.log("when loaded");
         var responseStr = xhr.responseText;
         var object = JSON.parse(responseStr);
-        event.receivedFirstWord(object.Korean); //ask Jason what's the first word here? 
+        this.setState({ displayed: WordToDispplay });
+        // event.receivedFirstWord(object.korean); //ask Jason what's the first word here? 
         console.log(object.Korean);
       };
       xhr.onerror = function () {
@@ -59,7 +61,7 @@ var CardPage = function (_React$Component) {
     key: "receivedFirstWord",
     value: function receivedFirstWord(WordToDispplay) {
       this.setState({ firstWord: false });
-      this.setState({ displayed: translatedWord });
+      this.setState({ displayed: WordToDispplay });
     }
   }, {
     key: "checkReturn",
@@ -76,26 +78,6 @@ var CardPage = function (_React$Component) {
     key: "addButton",
     value: function addButton() {
       // this.context.router.push('/home.html');
-    }
-  }, {
-    key: "sendTranslateRequest",
-    value: function sendTranslateRequest(englishWord, card) {
-      //Used to send englishWord for translation in API
-      var url = "translate?english=" + englishWord;
-
-      var xhr = new XMLHttpRequest();
-
-      xhr.open("GET", url, true);
-
-      xhr.onload = function () {
-        var responseStr = xhr.responseText;
-        var object = JSON.parse(responseStr);
-        card.receivedTranslateRequest(object.Korean);
-      };
-      xhr.onerror = function () {
-        console.log("did not work");
-      };
-      xhr.send();
     }
   }, {
     key: "receivedTranslateRequest",
@@ -124,15 +106,20 @@ var CardPage = function (_React$Component) {
       return this.state.displayed;
     }
   }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.getDB();
+    }
+  }, {
     key: "render",
     value: function render() {
       var reviewOutput = void 0;
-      if (this.state.firstWord) {
-        this.getDB;
-        reviewOutput = React.createElement("textarea", { id: "input", value: this.state.displayed, placeholder: "Korean" }); //first word to display on the screen. 
-      } else {
-        reviewOutput = React.createElement("textarea", { id: "input", readOnly: true, placeholder: "Korean" });
-      }
+      // this.getDB();
+      reviewOutput = React.createElement("textarea", { id: "input", value: this.state.displayed, placeholder: "Korean" }); //first word to display on the screen. 
+      // }
+      // else {
+      //     reviewOutput = <textarea id="input" readOnly={true} placeholder="Korean" />; 
+      // }
 
       return React.createElement(
         "div",
