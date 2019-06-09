@@ -5,7 +5,7 @@
 //for API
 const APIrequest = require('request');
 const http = require('http');
-const APIkey = "AIzaSyBM7tsLhSZqKXgfDxCldqdK8qrYlmlaANg";  // ADD API KEY HERE
+const APIkey = "API KEY";  // ADD API KEY HERE
 const url = "https://translation.googleapis.com/language/translate/v2?key="+APIkey//always remains the same don't change
 //for AJAX
 const express = require('express')
@@ -23,8 +23,8 @@ const GoogleStrategy = require('passport-google-oauth20');
 //SERVER PIPELINE
 //PRE LOGIN
 const googleLoginData = {
-    clientID: '137558159232-fl7b8fq222qeo4t62d5nvvq4a6smk27n.apps.googleusercontent.com',
-    clientSecret: 'MWByQ6R62H2CGOUqPawqEtmz',
+    clientID: 'clientID',
+    clientSecret: 'clientSecret',
     callbackURL: '/auth/redirect'
 };
 passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
